@@ -1,0 +1,8 @@
+#contributor: Bozhidar Batsov <bozhidar@drow.bg>
+#name: Iterate string tokenizer
+#key: ittok
+# --
+for (java.util.StringTokenizer ${1:tokenizer}  = new java.util.StringTokenizer(${2:string}); $1.hasMoreTokens(); ) {
+    String {3:var} = ${4:tokenizerCopy}.nextToken();
+    $0
+}

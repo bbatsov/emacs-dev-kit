@@ -1,0 +1,8 @@
+#contributor: Bozhidar Batsov <bozhidar@drow.bg>
+#name: Iterate collection
+#key: itco
+# --
+for (${1:IterType} ${2:iter} = ${3:coll}.iterator(); $2.hasNext(); ) {
+  ${4:ElemType} ${5:var} = $2.next();
+  $0
+}

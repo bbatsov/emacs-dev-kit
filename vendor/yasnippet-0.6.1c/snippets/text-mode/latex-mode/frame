@@ -1,0 +1,8 @@
+#contributor : Bozhidar Batsov
+#name : \begin{frame} ... \end{frame}
+# --
+
+\begin{frame}{${1:title}}
+\transdissolve
+$0
+\end{frame}

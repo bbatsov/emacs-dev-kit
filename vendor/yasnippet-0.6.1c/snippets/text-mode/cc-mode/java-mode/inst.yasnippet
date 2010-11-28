@@ -1,0 +1,8 @@
+#contributor: Bozhidar Batsov <bozhidar@drow.bg>
+#name: instanceof
+#key: inst
+# --
+if (${1:expr} instanceof ${2:Type}) {
+  $2 ${3:var} = ($2)$1;
+  $0
+}

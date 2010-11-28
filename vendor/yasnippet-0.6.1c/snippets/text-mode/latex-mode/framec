@@ -1,0 +1,10 @@
+#contributor : Bozhidar Batsov
+#name : \begin{frame} ... \end{frame}
+# --
+\begin{frame}[fragile]
+  \frametitle{${1:title}}
+  \transdissolve
+  \begin{lstlisting}
+  $0
+  \end{lstlisting}
+\end{frame}

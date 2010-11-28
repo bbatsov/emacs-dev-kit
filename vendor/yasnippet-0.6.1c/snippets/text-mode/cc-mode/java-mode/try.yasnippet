@@ -1,0 +1,9 @@
+#contributor: Bozhidar Batsov <bozhidar@drow.bg>
+#name: try {...} catch (...) {...}
+#key: try
+# --
+try {
+    `yas/selected-text`
+} catch (${1:Exception} ex) {
+    $0    
+}

@@ -1,0 +1,7 @@
+#contributor: Bozhidar Batsov <bozhidar@drow.bg>
+#name: Lazy init
+#key: lazy
+# --
+if (${1:var} == null) {
+  $1 = new ${2:Type}($0);
+}

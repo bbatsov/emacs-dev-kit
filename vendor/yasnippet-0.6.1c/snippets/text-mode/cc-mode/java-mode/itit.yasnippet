@@ -1,0 +1,8 @@
+#contributor: Bozhidar Batsov <bozhidar@drow.bg>
+#name: Iterate over iterator
+#key: itit
+# --
+while (${1:iter}.hasNext()) {
+  ${2:Type} ${3:elem} = $1.next();
+  $0
+}

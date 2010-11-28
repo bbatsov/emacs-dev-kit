@@ -1,0 +1,11 @@
+#contributor: Bozhidar Batsov <bozhidar@drow.bg>
+#name: try {...} catch (...) {...} finally {...}
+#key: trycf
+# --
+try {
+    `yas/selected-text`
+} catch (${1:Exception} ex) {
+    ${2:ex.printStackTrace();}    
+} finally {
+    $0
+}

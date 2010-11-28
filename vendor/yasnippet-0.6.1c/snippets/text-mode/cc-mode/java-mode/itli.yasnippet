@@ -1,0 +1,8 @@
+#contributor: Bozhidar Batsov <bozhidar@drow.bg>
+#name: Iterate list
+#key: itli
+# --
+for (int ${1:index} = 0; $1 < ${2:list}.size(); $1++) {
+  ${3:Type} ${4:elem} = $2.get($1);
+  $0
+}

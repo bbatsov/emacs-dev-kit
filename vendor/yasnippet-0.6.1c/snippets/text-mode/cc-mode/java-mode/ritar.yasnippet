@@ -1,0 +1,8 @@
+#contributor: Bozhidar Batsov <bozhidar@drow.bg>
+#name: Iterate array in reverse
+#key: ritar
+# --
+for (int ${1:index} = ${2:array}.length - 1; $1 >= 0; $1--) {
+  ${3:ElemType} ${4:var} = $2[$1];
+  $0
+}
