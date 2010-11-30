@@ -4,7 +4,11 @@
 
 (defvar starter-kit-packages (list 'slime
                                    'swank-clojure
-                                   'xml-rpc)
+                                   'xml-rpc
+                                   'lisppaste
+                                   'gist
+                                   'magit
+                                   'htmlize)
   "Libraries that should be installed by default.")
 
 (defun starter-kit-elpa-install ()
