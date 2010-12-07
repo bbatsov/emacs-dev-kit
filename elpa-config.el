@@ -2,9 +2,7 @@
 ;;
 ;; Part of the Emacs Starter Kit
 
-(defvar starter-kit-packages (list 'slime
-                                   'swank-clojure
-                                   'xml-rpc)
+(defvar starter-kit-packages (list 'xml-rpc)
   "Libraries that should be installed by default.")
 
 (defun starter-kit-elpa-install ()

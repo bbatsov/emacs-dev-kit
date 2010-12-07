@@ -34,9 +34,15 @@
 (add-hook 'ielm-mode-hook             'turn-on-eldoc-mode)
 (add-hook 'scheme-mode-hook           'lisp-coding-hook)
 
+;; location of Common Lisp executable *not a folder*
+(setq inferior-lisp-program "/usr/bin/clisp")
+(require 'slime)
+(slime-setup)
+(slime-setup '(slime-fancy))
+
 ;; Clojure
 (add-hook 'slime-repl-mode-hook       'interactive-lisp-coding-hook)
-(add-hook 'clojure-mode-hook 'lisp-coding-hook)
+;(add-hook 'clojure-mode-hook 'lisp-coding-hook)
 
 ;; Stop SLIME's REPL from grabbing DEL,
 ;; which is annoying when backspacing over a '('
@@ -45,7 +51,7 @@
     (read-kbd-macro paredit-backward-delete-key) nil))
 (add-hook 'slime-repl-mode-hook 'override-slime-repl-bindings-with-paredit)
 
-(setq swank-clojure-extra-vm-args '("-Xms512m" "-Xmx1024m"))
+;(setq swank-clojure-extra-vm-args '("-Xms512m" "-Xmx1024m"))
 
 (defun remove-elc-on-save ()
   "If you're saving an elisp file, likely the .elc is no longer valid."
@@ -56,13 +62,5 @@
                   (delete-file (concat buffer-file-name "c"))))))
 
 (define-key emacs-lisp-mode-map (kbd "M-.") 'find-function-at-point)
-
-(defun kill-slime-debug-buffer (buffer)
-  (when (string-match "sldb" (buffer-name buffer))
-    (kill-buffer buffer)))
-
-(defun kill-slime-debug-buffers ()
-  (interactive)
-  (mapcar 'kill-slime-debug-buffer (buffer-list)))
 
 (provide 'lisp-config)
