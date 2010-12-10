@@ -11,4 +11,19 @@
 ;; ECB configuration
 (require 'ecb)
 
+;; Lisp configuration
+(define-key read-expression-map (kbd "TAB") 'lisp-complete-symbol)
+
+;; a great lisp coding hook
+(defun lisp-coding-hook ()
+  (coding-hook)
+  (setq autopair-dont-activate t)
+  (paredit-mode +1))
+
+;; interactive modes don't need whitespace checks
+(defun interactive-lisp-coding-hook ()
+  (setq autopair-dont-activate t)
+  (paredit-mode +1)
+  (turn-off-whitespace))
+
 (provide 'coding-config)
