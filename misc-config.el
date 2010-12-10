@@ -289,6 +289,9 @@
 (require 'yaml-mode)
 (add-to-list 'auto-mode-alist '("\\.yml$" . yaml-mode))
 
+;; graphviz-mode
+(load-file (concat ext-dir "graphviz-dot-mode.el"))
+
 (autoload 'find-file-in-project "find-file-in-project"
   "Find file in project." t)
 
