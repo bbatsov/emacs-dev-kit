@@ -6,7 +6,7 @@
 ;; a list of alternative Common Lisp implementations that can be
 ;; used with SLIME
 (setq slime-lisp-implementations
-      ’((cmucl ("cmucl" "-quiet"))
+      '((cmucl ("cmucl" "-quiet"))
         (sbcl ("sbcl" "--noinform") :coding-system utf-8-unix)))
 ;; delay SLIME loading until you actually need it
 (require 'slime-autoloads)
