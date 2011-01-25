@@ -1,4 +1,4 @@
-;; Time-stamp: <2011-01-24 17:04:02 (bozhidar)>
+;; Time-stamp: <2011-01-25 12:18:53 (bozhidar)>
 
 ;; Copyright (C) 2009-2010  Bozhidar Batsov.
 ;; This file is free software licensed under the terms of the
@@ -80,9 +80,13 @@ Emacs load path."
 
 ;; load programming modes configuration
 (require 'coding-config)
+
+;; lisp family of languages
 (require 'emacs-lisp-config)
 (require 'common-lisp-config)
 (require 'scheme-config)
+(require 'clojure-config)
+
 (require 'c-config)
 (require 'perl-config)
 (require 'prolog-config)
