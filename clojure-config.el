@@ -18,6 +18,6 @@
               (slime-autodoc-mode 1))))
 
 ;; ugly solution, because the first hook doesn't work
-(setq slime-use-autodoc-mode nil)
+;(setq slime-use-autodoc-mode nil)
 
 (provide 'clojure-config)
