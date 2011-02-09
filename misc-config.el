@@ -312,4 +312,9 @@
 ;; abbrev config
 (add-hook 'text-mode-hook (lambda () (abbrev-mode +1)))
 
+
+;; make a shell script executable automatically on save
+(add-hook 'after-save-hook
+          'executable-make-buffer-file-executable-if-script-p)
+
 (provide 'misc-config)
