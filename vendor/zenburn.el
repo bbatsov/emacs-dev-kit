@@ -145,13 +145,8 @@ to values."
   '(unless (zenburn-format-spec-works-p)
      (zenburn-define-format-spec)))
 
-(setq-default mode-line-buffer-identification
-              (list (propertize "%12b" 'face
-                                (list :weight 'bold
-                                      :foreground zenburn-yellow))))
-(setq-default mode-line-frame-identification "")
 (setq-default erc-mode-line-format
-              (concat (propertize "%t" 'face
+              (concat (propertize "%S" 'face
                                   (list :weight 'bold
                                         :foreground zenburn-yellow))
                       " %a"))
@@ -290,6 +285,8 @@ static char *gnus-pointer[] = {
           '(font-lock-warning
             ((t (:inherit zenburn-highlight-alerting))))
 
+          '(sh-heredoc ((t (:inherit font-lock-string))))
+
           '(fixme-face ((t (:foreground "#dcdccc" :background "#3f3f3f"
                                         :weight bold :box nil)))) ; Colours taken from vim ":hl Todo"
 
@@ -396,14 +393,13 @@ static char *gnus-pointer[] = {
           `(secondary-selection ((t (:foreground nil :background "#506070"))))
 
           '(trailing-whitespace ((t (:inherit font-lock-warning))))
-          '(highlight ((t (:underline t))))
+          '(highlight ((t (:background "#506070"))))
           '(paren ((t (:inherit zenburn-lowlight-1))))
           '(show-paren-mismatch ((t (:inherit font-lock-warning))))
           `(show-paren-match ((t (:foreground ,zenburn-blue-1 :underline t))))
           '(match ((t (:weight bold))))
 
-          `(button ((t (:foreground ,zenburn-yellow :background "#506070"
-                                    :weight bold :underline t))))
+          `(button ((t (:foreground ,zenburn-yellow :underline t))))
 
           `(cursor ((t (:background "#aaaaaa" :foreground nil))))
           '(hover-highlight ((t (:underline t :foreground "#f8f893"))))
@@ -421,9 +417,8 @@ static char *gnus-pointer[] = {
           '(icompletep-nb-candidates ((t (:foreground "#AFD8AF")))) ; zenburn-green+3
           '(icompletep-keys ((t (:foreground "#CC9393")))) ; zenburn-red
 
-          `(isearch ((t (:foreground ,zenburn-fg :background "#506070"))))
-          `(isearch-lazy-highlight
-            ((t (:foreground ,zenburn-fg :background "#1e2320" :weight normal))))
+          `(isearch ((t (:background "#668b8b" :foreground ,zenburn-fg :underline nil))))
+          `(lazy-highlight ((t (:background "#506070" :foreground ,zenburn-fg :underline nil))))
 
           '(mtorus-highlight ((t (:inherit zenburn-highlight-bluish))))
           '(mtorus-notify-highlight ((t (:inherit zenburn-primary-1))))
@@ -506,6 +501,8 @@ static char *gnus-pointer[] = {
           '(custom-variable-tag
             ((t (:inherit zenburn-primary-2))))
 
+          `(mode-line-buffer-id ((t (:foreground ,zenburn-yellow :weight bold))))
+
           '(dictionary-button ((t (:inherit fancy-widget-button))))
           '(dictionary-reference ((t (:inherit zenburn-primary-1))))
           '(dictionary-word-entry ((t (:inherit font-lock-keyword))))
@@ -519,6 +516,26 @@ static char *gnus-pointer[] = {
           '(diff-removed ((t (:inherit zenburn-blue))))
           '(diff-context ((t (:inherit font-lock-comment))))
           '(diff-refine-change ((t (:inherit zenburn-background-2))))
+
+          `(ediff-current-diff-A ((t (:background "#495766" :foreground ,zenburn-fg))))
+          `(ediff-current-diff-Ancestor ((t (:background "#495766" :foreground ,zenburn-fg))))
+          `(ediff-current-diff-B ((t (:background "#495766" :foreground ,zenburn-fg))))
+          `(ediff-current-diff-C ((t (:background "#495766" :foreground ,zenburn-fg))))
+
+          `(ediff-even-diff-A ((t (:background ,zenburn-bg+1))))
+          `(ediff-even-diff-Ancestor ((t (:background ,zenburn-bg+1))))
+          `(ediff-even-diff-B ((t (:background ,zenburn-bg+1))))
+          `(ediff-even-diff-C ((t (:background ,zenburn-bg+1))))
+
+          `(ediff-odd-diff-A ((t (:background ,zenburn-bg+1))))
+          `(ediff-odd-diff-Ancestor ((t (:background ,zenburn-bg+1))))
+          `(ediff-odd-diff-B ((t (:background ,zenburn-bg+1))))
+          `(ediff-odd-diff-C ((t (:background ,zenburn-bg+1))))
+
+          `(ediff-fine-diff-A ((t (:background "#668b8b" :foreground ,zenburn-fg))))
+          `(ediff-fine-diff-Ancestor ((t (:background "#668b8b" :foreground ,zenburn-fg))))
+          `(ediff-fine-diff-B ((t (:background "#668b8b" :foreground ,zenburn-fg))))
+          `(ediff-fine-diff-C ((t (:background "#668b8b" :foreground ,zenburn-fg))))
 
           `(emms-pbi-song ((t (:foreground ,zenburn-yellow))))
           '(emms-pbi-current ((t (:inherit zenburn-primary-1))))
@@ -857,6 +874,10 @@ static char *gnus-pointer[] = {
           '(outline-1 ((t (:inherit outline-2 :height 1.0))))
 
           '(setnu-line-number ((t (:inherit zenburn-lowlight-2))))
+
+          `(smerge-mine ((t (:inherit font-lock-default-face))))
+          `(smerge-other ((t (:inherit font-lock-default-face))))
+          `(smerge-refined-change ((t (:background "#668b8b" :foreground ,zenburn-fg))))
 
           '(speedbar-button ((t (:inherit zenburn-primary-1))))
           '(speedbar-file ((t (:inherit zenburn-primary-2))))
