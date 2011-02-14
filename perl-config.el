@@ -16,7 +16,7 @@
 (setq cperl-electric-keywords nil)
 (setq cperl-info-on-command-no-prompt t)
 (setq cperl-clobber-lisp-bindings t)
-(setq cperl-lazy-help-time t)
+(setq cperl-lazy-help-time 3)
 
 ;; remove annoying trailing whitespace face(underscore)
 (setq cperl-invalid-face nil)
