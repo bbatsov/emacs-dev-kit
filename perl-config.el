@@ -5,6 +5,7 @@
 
 
 (add-hook 'cperl-mode-hook 'my-cperl-mode-hook t)
+
 (defun my-cperl-mode-hook ()
   (setq cperl-indent-level 4)
   (setq cperl-continued-statement-offset 8)
@@ -25,5 +26,12 @@
   (set-face-background 'cperl-array-face nil)
   (set-face-background 'cperl-hash-face nil)
   (setq cperl-invalid-face nil))
+
+(autoload 'perlcritic        "perlcritic" "" t)
+(autoload 'perlcritic-region "perlcritic" "" t)
+(autoload 'perlcritic-mode   "perlcritic" "" t)
+
+(eval-after-load "cperl-mode"
+  '(add-hook 'cperl-mode-hook 'perlcritic-mode))
 
 (provide 'perl-config)
