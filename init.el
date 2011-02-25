@@ -1,4 +1,4 @@
-;; Time-stamp: <2011-02-21 12:08:05 (bozhidar)>
+;; Time-stamp: <2011-02-26 01:26:28 (bozhidar)>
 
 ;; Copyright (C) 2009-2010  Bozhidar Batsov.
 ;; This file is free software licensed under the terms of the
@@ -94,7 +94,7 @@ Emacs load path."
 ;(require 'php-config)
 (require 'ruby-config)
 ;(require 'java-config)
-;(require 'scala-config)
+(require 'scala-config)
 (require 'haskell-config)
 
 ;; load ibuffer configuration
