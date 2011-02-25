@@ -2,7 +2,7 @@
 (require 'scala-mode-auto)
 (add-hook 'scala-mode-hook 'coding-hook)
 
-(add-to-list 'load-path (concat ext-dir "ensime/elisp/"))
+(add-to-list 'load-path (concat ext-dir "ensime_2.8.1-0.4.2/elisp/"))
 (require 'ensime)
 (add-hook 'scala-mode-hook 'ensime-scala-mode-hook)
 ;; Make sure that your bin/server.sh has executable permission
