@@ -2,4 +2,6 @@
 ;; https://github.com/fgallina/python.el
 (require 'python)
 
+(setq python-shell-interpreter "python3.1")
+
 (provide 'python-config)
