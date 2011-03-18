@@ -18,6 +18,11 @@
 ;; SLIME contrib packages
 (slime-setup '(slime-fancy))
 
+(setq slime-complete-symbol-function 'slime-fuzzy-complete-symbol
+      slime-fuzzy-completion-in-place t
+      slime-enable-evaluate-in-emacs t
+      slime-autodoc-use-multiline-p t)
+
 (add-hook 'lisp-mode-hook 'lisp-coding-hook)
 (add-hook 'slime-repl-mode-hook 'interactive-lisp-coding-hook)
 
@@ -34,5 +39,9 @@
   (define-key slime-repl-mode-map
     (read-kbd-macro paredit-backward-delete-key) nil))
 (add-hook 'slime-repl-mode-hook 'override-slime-repl-bindings-with-paredit)
+
+(define-key slime-mode-map (kbd "TAB") 'slime-indent-and-complete-symbol)
+(define-key slime-mode-map (kbd "C-c i") 'slime-inspect)
+(define-key slime-mode-map (kbd "C-c C-s") 'slime-selector)
 
 (provide 'common-lisp-config)
