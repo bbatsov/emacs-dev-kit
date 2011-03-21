@@ -27,6 +27,7 @@
 (defun interactive-lisp-coding-hook ()
   (setq autopair-dont-activate t)
   (paredit-mode +1)
+  (rainbow-delimiters-mode)
   (turn-off-whitespace))
 
 (provide 'coding-config)
