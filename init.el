@@ -1,4 +1,4 @@
-;; Time-stamp: <2011-02-26 01:26:28 (bozhidar)>
+;; Time-stamp: <2011-03-25 12:54:36 (bozhidar)>
 
 ;; Copyright (C) 2009-2010  Bozhidar Batsov.
 ;; This file is free software licensed under the terms of the
@@ -7,6 +7,9 @@
 ;; A lot of the configuration here is stolen or inspired from someone
 ;; else's work. I thank all the people from which I have benefited and
 ;; I hope that many of you will benefit from me as well. :-)
+
+;; a large part of Common Lisp implemented in Emacs Lisp
+(require 'cl)
 
 ;; Turn off mouse interface early in startup to avoid momentary display
 ;; You really don't need these; trust me.
