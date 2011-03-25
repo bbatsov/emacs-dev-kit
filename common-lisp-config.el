@@ -1,6 +1,9 @@
 ;;; Common Lisp
 ;;; This file is part of the Emacs Dev Kit
 
+;; the SBCL configuration file is in Common Lisp 
+(add-to-list 'auto-mode-alist '("\\.sbclrc$" . lisp-mode))
+
 ;; Use SLIME from Quicklisp
 (load (expand-file-name "~/quicklisp/slime-helper.el"))
 

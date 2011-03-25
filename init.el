@@ -1,4 +1,4 @@
-;; Time-stamp: <2011-03-25 12:54:36 (bozhidar)>
+;; Time-stamp: <2011-03-25 15:45:46 (bozhidar)>
 
 ;; Copyright (C) 2009-2010  Bozhidar Batsov.
 ;; This file is free software licensed under the terms of the
@@ -86,7 +86,10 @@ Emacs load path."
 
 ;; lisp family of languages
 (require 'emacs-lisp-config)
-(require 'common-lisp-config)
+;; Common Lisp support depends on SLIME being installed with Quicklisp
+(if (file-exists-p (expand-file-name "~/quicklisp/slime-helper.el"))
+    (require 'common-lisp-config)
+  (message "%s" "SLIME is not installed. Use Quicklisp to install it."))
 (require 'scheme-config)
 (require 'clojure-config)
 
