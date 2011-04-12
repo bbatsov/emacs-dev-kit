@@ -2,10 +2,9 @@
 ;;; belong to any particular place
 
 ;; nice scrolling
-(setq
- scroll-margin 0
- scroll-conservatively 100000
- scroll-preserve-screen-position 1)
+(setq scroll-margin 0
+      scroll-conservatively 100000
+      scroll-preserve-screen-position 1)
 
 ;; mode line settings
 (line-number-mode t)                     ; show line number
@@ -312,9 +311,11 @@
 ;; abbrev config
 (add-hook 'text-mode-hook (lambda () (abbrev-mode +1)))
 
-
 ;; make a shell script executable automatically on save
 (add-hook 'after-save-hook
           'executable-make-buffer-file-executable-if-script-p)
+
+(require 're-builder)
+(setq reb-re-syntax 'string)
 
 (provide 'misc-config)
