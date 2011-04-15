@@ -1,7 +1,13 @@
-;;; rainbow-delimiters.el --- Colorize nested delimiters: () [] {}
-;; Copyright (C) 2010  Jeremy Rayman
+;;; rainbow-delimiters.el --- Color nested parentheses, brackets, and braces according to their depth.
 
-;; Author/Maintainer: Jeremy Rayman <jeremy.rayman@gmail.com>
+;; Copyright (C) 2010-2011 Jeremy L. Rayman.
+;; Author: Jeremy L. Rayman <jeremy.rayman@gmail.com>
+;; Maintainer: Jeremy L. Rayman <jeremy.rayman@gmail.com>
+;; Created: 2010-09-02
+;; Version: 1.2.1
+;; Keywords: faces, convenience, lisp, matching, tools
+;; EmacsWiki: RainbowDelimiters
+;; URL: http://www.emacswiki.org/emacs/rainbow-delimiters.el
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -15,6 +21,32 @@
 
 ;; You should have received a copy of the GNU General Public License
 ;; along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+
+;;; Commentary:
+
+;; This is a "rainbow parentheses" mode which includes support for
+;; parens "()", brackets "[]", and braces "{}". It conveys nesting
+;; depth by using a different face for each level.  It colors all
+;; statements at a given level using the same color - if several
+;; statements are all at the same nested depth, they will all be the
+;; same color.
+;;
+;; Great care has been taken to make this mode FAST. You should see no
+;; discernible change in scrolling or editing speed while using it,
+;; even with delimiter-rich languages like Clojure, Lisp, and Scheme.
+;;
+;; The one exception is with extremely large nested data structures
+;; having hundreds of delimiters; in that case there will be a brief
+;; pause to colorize the structure the very first time it is displayed
+;; on screen; from then on editing this structure will perform at full
+;; speed.
+;;
+;; Default colors have been chosen with the philosophy that it's
+;; better be less intrusive than to be more colorful. Color schemes
+;; are always a matter of taste.  If you do take the time to design a
+;; new color scheme, please post it on the EmacsWiki page!
+;; URL: http://www.emacswiki.org/emacs/RainbowDelimiters
 
 ;;; Installation:
 
@@ -34,64 +66,47 @@
 
 ;;; Customization:
 
-;; To customize options including faces for each type of delimiter:
+;; To customize various options, including the color scheme:
 ;; M-x customize-group rainbow-delimiters
 ;;
 ;; color-theme.el users:
 ;; If you use the color-theme package, you can specify custom colors
-;; for each type of delimiter by adding the appropriate faces to your
-;; personal color-theme. Face names have the following format:
-;; rainbow-delimiters-paren-depth-1-face
-;; rainbow-delimiters-bracket-depth-1-face
-;; rainbow-delimiters-brace-depth-1-face
-;; With each type of delimiter having 12 faces total, numbered 1 to 12.
+;; by adding the appropriate faces to your theme.
+;; - Faces take the form of:
+;;   'rainbow-delimiters-depth-#-face' with # being the depth.
+;;   Depth begins at 1, the outermost color.
+;;   Faces exist for depths 1-12.
+;; - The unmatched delimiter face is:
+;;   'rainbow-delimiters-unmatched-delimiter-face'
 
-;;; Commentary:
+;;; Change Log:
 
-;; This is a "rainbow parentheses" mode which includes support for
-;; parens "()", brackets "[]", and braces "{}". It conveys nesting
-;; depth by using a different face for each level. It correctly
-;; colorizes statements of the same depth - if two statements are the
-;; same level, they will be the same color.
-
-;; Great care has been taken to make this mode FAST. You should see
-;; no discernable change in scrolling or editing speed when using it
-;; with delimiter-rich languages such as Clojure, Lisp and Scheme.
-;;
-;; The only exception is with extremely large nested data structures
-;; having hundreds of delimiters; in that case there will be a brief
-;; pause to colorize the structure the very first time it is
-;; displayed on screen; from then on editing this structure will
-;; perform at full speed.
-
-;; Each set of delimiters "()", "[]", "{}" is colored independently
-;; from one another. The color chosen is based on the nesting depth
-;; of that type of delimiter only, allowing you to visually keep
-;; track of the nesting of each delimiter type independent of one
-;; another. This ends up giving much clearer visual information to
-;; the programmer.
-
-;; Default colors come from ZenBurn vim/emacs theme, available here:
-;; http://slinky.imukuppi.org/zenburnpage/
-
-;; Help would be appreciated in improving the default color scheme.
-;; Since Emacs does not currently have color correction, colors
-;; appear differently wide gamut displays compared to how they look
-;; on most SRGB monitors. I use a wide-gamut display; I have tried
-;; to select the best default colors I can from popular SRGB themes.
-;; If you make a change to the default color scheme, please send it
-;; to (Jeremy Rayman, jeremy.rayman.public@gmail.com).  A list of
-;; colors in any form would be fine; a proper patch is not required.
-;; This would be a useful contribution.
-
-;; 1.0 - Initial public release.
+;; 1.0 - Initial release.
+;; 1.1 - Stop tracking each delimiter's depth independently.
+;;       This had lead to confusing results when viewing clojure
+;;       code. Instead, just color based on current nesting inside
+;;       all delimiters combined.
+;;     - Added 'all-delimiters' faces to apply a color scheme to
+;;       all delimiters at once. Other faces inherit from this group.
+;; 1.1.1 - Change color scheme to a lighter, more subtle style.
+;; 1.1.2: (2011-03-25)
+;;  - Add an unmatched-delimiter face and correct problem with
+;;    coloring of text following unmatched closing delims.
+;; 1.2: (2011-03-28)
+;;  - Unify delimiter faces: all delimiter types now use the same depth
+;;    faces, of form 'rainbow-delimiters-depth-#-face'.
+;; 1.2.1: (2011-03-29)
+;;  - Conform to ELPA conventions.
 
 ;;; TODO:
-;; - Provide option to colorize unmatched delimiters with a special face.
-;; - Add a set of default faces for other delimiter faces to inherit from.
-;;   This would let us change colors at only one location and have
-;;   the change applied to all the delimiter types.
+
 ;; - Add support for nested tags (XML, HTML)
+
+;;; Issues:
+
+;; - Rainbow-delimiters mode does not appear to change the color of
+;;   delimiters when Org-mode is enabled.
+
 
 ;;; Code:
 
@@ -101,259 +116,109 @@
 ;;; Customize interface:
 
 (defgroup rainbow-delimiters nil
-  "Color nested sets of delimiters according to depth."
+  "Color nested parentheses, brackets, and braces according to their depth."
   :prefix "rainbow-delimiters-"
   :link '(url-link :tag "Website for rainbow-delimiters (EmacsWiki)"
                    "http://www.emacswiki.org/emacs/RainbowDelimiters")
   :group 'applications)
 
-(defgroup rainbow-delimiters-paren-faces nil
-  "Faces to use in coloring parentheses."
+(defgroup rainbow-delimiters-faces nil
+  "Faces for each nested depth. Used to color delimiter pairs.
+
+Depths 1-12 are defined. Depth 1 is the outermost delimiter pair."
   :group 'rainbow-delimiters
   :link '(custom-group-link "rainbow-delimiters")
-  :prefix 'rainbow-delimiters-paren-faces-)
+  :prefix 'rainbow-delimiters-faces-)
 
-(defgroup rainbow-delimiters-bracket-faces nil
-  "Faces to use in coloring brackets."
+
+;;; Faces:
+
+;; Unmatched delimiter face:
+(defface rainbow-delimiters-unmatched-face
+  '((t (:foreground "#88090B")))
+  "Face to color unmatched closing delimiters with."
   :group 'rainbow-delimiters
-  :link '(custom-group-link "rainbow-delimiters")
-  :prefix 'rainbow-delimiters-bracket-faces-)
+  :group 'rainbow-delimiters-faces)
 
-(defgroup rainbow-delimiters-brace-faces nil
-  "Faces to use in coloring braces."
-  :group 'rainbow-delimiters
-  :link '(custom-group-link "rainbow-delimiters")
-  :prefix 'rainbow-delimiters-brace-faces-)
-
-
-;;; Faces for colorizing delimiters at each level:
 
 ;; NOTE: The use of repetitious definitions for depth faces is temporary.
 ;; Once the emacs 24 color theme support comes in, this will be reevaluated.
 
-;; Parentheses - ()
-
-(defface rainbow-delimiters-paren-depth-1-face
+;; Faces for colorizing delimiters at each level:
+(defface rainbow-delimiters-depth-1-face
   '((t (:foreground "grey55")))
-  "Face for rainbow-delimiters mode `paren' depth 1, the outermost pair."
-  :group 'rainbow-delimiters-paren-faces)
+  "Rainbow-delimiters nested delimiter face, depth 1 - the outermost pair."
+  :group 'rainbow-delimiters-faces)
 
-(defface rainbow-delimiters-paren-depth-2-face
-  '((t (:foreground "#7F9F7F")))
-  "Face for rainbow-delimiters mode `paren' nested depth 2."
-  :group 'rainbow-delimiters-paren-faces)
+(defface rainbow-delimiters-depth-2-face
+  '((t (:foreground "#93a8c6")))
+  "Rainbow-delimiters nested delimiter face, depth 2."
+  :group 'rainbow-delimiters-faces)
 
-(defface rainbow-delimiters-paren-depth-3-face
-  '((t (:foreground "#8CD0D3")))
-  "Face for rainbow-delimiters mode `paren' nested depth 3."
-  :group 'rainbow-delimiters-paren-faces)
+(defface rainbow-delimiters-depth-3-face
+  '((t (:foreground "#b0b1a3")))
+  "Rainbow-delimiters nested delimiter face, depth 3."
+  :group 'rainbow-delimiters-faces)
 
-(defface rainbow-delimiters-paren-depth-4-face
-  '((t (:foreground "#DCA3A3")))
-  "Face for rainbow-delimiters mode `paren' nested depth 4."
-  :group 'rainbow-delimiters-paren-faces)
+(defface rainbow-delimiters-depth-4-face
+  '((t (:foreground "#97b098")))
+  "Rainbow-delimiters nested delimiter face, depth 4."
+  :group 'rainbow-delimiters-faces)
 
-(defface rainbow-delimiters-paren-depth-5-face
-  '((t (:foreground "#385F38")))
-  "Face for rainbow-delimiters mode `paren' nested depth 5."
-  :group 'rainbow-delimiters-paren-faces)
+(defface rainbow-delimiters-depth-5-face
+  '((t (:foreground "#aebed8")))
+  "Rainbow-delimiters nested delimiter face, depth 5."
+  :group 'rainbow-delimiters-faces)
 
-(defface rainbow-delimiters-paren-depth-6-face
-  '((t (:foreground "#F0DFAF")))
-  "Face for rainbow-delimiters mode `paren' nested depth 6."
-  :group 'rainbow-delimiters-paren-faces)
+(defface rainbow-delimiters-depth-6-face
+  '((t (:foreground "#b0b0b3")))
+  "Rainbow-delimiters nested delimiter face, depth 6."
+  :group 'rainbow-delimiters-faces)
 
-(defface rainbow-delimiters-paren-depth-7-face
-  '((t (:foreground "#BCA3A3")))
-  "Face for rainbow-delimiters mode `paren' nested depth 7."
-  :group 'rainbow-delimiters-paren-faces)
+(defface rainbow-delimiters-depth-7-face
+  '((t (:foreground "#90a890")))
+  "Rainbow-delimiters nested delimiter face, depth 7."
+  :group 'rainbow-delimiters-faces)
 
-(defface rainbow-delimiters-paren-depth-8-face
-  '((t (:foreground "#C0BED1")))
-  "Face for rainbow-delimiters mode `paren' nested depth 8."
-  :group 'rainbow-delimiters-paren-faces)
+(defface rainbow-delimiters-depth-8-face
+  '((t (:foreground "#a2b6da")))
+  "Rainbow-delimiters nested delimiter face, depth 8."
+  :group 'rainbow-delimiters-faces)
 
-(defface rainbow-delimiters-paren-depth-9-face
-  '((t (:foreground "#FFCFAF")))
-  "Face for rainbow-delimiters mode `paren' nested depth 9."
-  :group 'rainbow-delimiters-paren-faces)
+(defface rainbow-delimiters-depth-9-face
+  '((t (:foreground "#9cb6ad")))
+  "Rainbow-delimiters nested delimiter face, depth 9."
+  :group 'rainbow-delimiters-faces)
 
 ;; Emacs doesn't sort face names by number correctly above 1-9; trick it into
 ;; proper sorting by prepending a _ before the faces with depths over 10.
-(defface rainbow-delimiters-paren-depth-_10-face
-  '((t (:foreground "#F0EFD0")))
-  "Face for rainbow-delimiters mode `paren' nested depth 10."
-  :group 'rainbow-delimiters-paren-faces)
+(defface rainbow-delimiters-depth-_10-face
+  '((t (:foreground "#83787e")))
+  "Rainbow-delimiters nested delimiter face, depth 10."
+  :group 'rainbow-delimiters-faces)
 
-(defface rainbow-delimiters-paren-depth-_11-face
-  '((t (:foreground "#F0DFAF")))
-  "Face for rainbow-delimiters mode `paren' nested depth 11."
-  :group 'rainbow-delimiters-paren-faces)
+(defface rainbow-delimiters-depth-_11-face
+  '((t (:foreground "#e1ddca")))
+  "Rainbow-delimiters nested delimiter face, depth 11."
+  :group 'rainbow-delimiters-faces)
 
-(defface rainbow-delimiters-paren-depth-_12-face
-  '((t (:foreground "#DFCFAF")))
-  "Face for rainbow-delimiters mode `paren' nested depth 12."
-  :group 'rainbow-delimiters-paren-faces)
+(defface rainbow-delimiters-depth-_12-face
+  '((t (:foreground "#e0c7c7")))
+  "Rainbow-delimiters nested delimiter face, depth 12."
+  :group 'rainbow-delimiters-faces)
 
-
-;; Brackets - []
-
-(defface rainbow-delimiters-bracket-depth-1-face
-  '((t (:foreground "grey55")))
-  "Face for rainbow-delimiters mode `bracket' depth 1, the outermost pair."
-  :group 'rainbow-delimiters-bracket-faces)
-
-(defface rainbow-delimiters-bracket-depth-2-face
-  '((t (:foreground "#7F9F7F")))
-  "Face for rainbow-delimiters mode `bracket' nested depth 2."
-  :group 'rainbow-delimiters-bracket-faces)
-
-(defface rainbow-delimiters-bracket-depth-3-face
-  '((t (:foreground "#8CD0D3")))
-  "Face for rainbow-delimiters mode `bracket' nested depth 3."
-  :group 'rainbow-delimiters-bracket-faces)
-
-(defface rainbow-delimiters-bracket-depth-4-face
-  '((t (:foreground "#DCA3A3")))
-  "Face for rainbow-delimiters mode `bracket' nested depth 4."
-  :group 'rainbow-delimiters-bracket-faces)
-
-(defface rainbow-delimiters-bracket-depth-5-face
-  '((t (:foreground "#385F38")))
-  "Face for rainbow-delimiters mode `bracket' nested depth 5."
-  :group 'rainbow-delimiters-bracket-faces)
-
-(defface rainbow-delimiters-bracket-depth-6-face
-  '((t (:foreground "#F0DFAF")))
-  "Face for rainbow-delimiters mode `bracket' nested depth 6."
-  :group 'rainbow-delimiters-bracket-faces)
-
-(defface rainbow-delimiters-bracket-depth-7-face
-  '((t (:foreground "#BCA3A3")))
-  "Face for rainbow-delimiters mode `bracket' nested depth 7."
-  :group 'rainbow-delimiters-bracket-faces)
-
-(defface rainbow-delimiters-bracket-depth-8-face
-  '((t (:foreground "#C0BED1")))
-  "Face for rainbow-delimiters mode `bracket' nested depth 8."
-  :group 'rainbow-delimiters-bracket-faces)
-
-(defface rainbow-delimiters-bracket-depth-9-face
-  '((t (:foreground "#FFCFAF")))
-  "Face for rainbow-delimiters mode `bracket' nested depth 9."
-  :group 'rainbow-delimiters-bracket-faces)
-
-;; Emacs doesn't sort face names by number correctly above 1-9; trick it into
-;; proper sorting by prepending a _ before the faces with depths over 10.
-(defface rainbow-delimiters-bracket-depth-_10-face
-  '((t (:foreground "#F0EFD0")))
-  "Face for rainbow-delimiters mode `bracket' nested depth 10."
-  :group 'rainbow-delimiters-bracket-faces)
-
-(defface rainbow-delimiters-bracket-depth-_11-face
-  '((t (:foreground "#F0DFAF")))
-  "Face for rainbow-delimiters mode `bracket' nested depth 11."
-  :group 'rainbow-delimiters-bracket-faces)
-
-(defface rainbow-delimiters-bracket-depth-_12-face
-  '((t (:foreground "#DFCFAF")))
-  "Face for rainbow-delimiters mode `bracket' nested depth 12."
-  :group 'rainbow-delimiters-bracket-faces)
-
-
-;; Braces - {}
-
-(defface rainbow-delimiters-brace-depth-1-face
-  '((t (:foreground "grey55")))
-  "Face for rainbow-delimiters mode `brace' depth 1, the outermost pair."
-  :group 'rainbow-delimiters-brace-faces)
-
-(defface rainbow-delimiters-brace-depth-2-face
-  '((t (:foreground "#7F9F7F")))
-  "Face for rainbow-delimiters mode `brace' nested depth 2."
-  :group 'rainbow-delimiters-brace-faces)
-
-(defface rainbow-delimiters-brace-depth-3-face
-  '((t (:foreground "#8CD0D3")))
-  "Face for rainbow-delimiters mode `brace' nested depth 3."
-  :group 'rainbow-delimiters-brace-faces)
-
-(defface rainbow-delimiters-brace-depth-4-face
-  '((t (:foreground "#DCA3A3")))
-  "Face for rainbow-delimiters mode `brace' nested depth 4."
-  :group 'rainbow-delimiters-brace-faces)
-
-(defface rainbow-delimiters-brace-depth-5-face
-  '((t (:foreground "#385F38")))
-  "Face for rainbow-delimiters mode `brace' nested depth 5."
-  :group 'rainbow-delimiters-brace-faces)
-
-(defface rainbow-delimiters-brace-depth-6-face
-  '((t (:foreground "#F0DFAF")))
-  "Face for rainbow-delimiters mode `brace' nested depth 6."
-  :group 'rainbow-delimiters-brace-faces)
-
-(defface rainbow-delimiters-brace-depth-7-face
-  '((t (:foreground "#BCA3A3")))
-  "Face for rainbow-delimiters mode `brace' nested depth 7."
-  :group 'rainbow-delimiters-brace-faces)
-
-(defface rainbow-delimiters-brace-depth-8-face
-  '((t (:foreground "#C0BED1")))
-  "Face for rainbow-delimiters mode `brace' nested depth 8."
-  :group 'rainbow-delimiters-brace-faces)
-
-(defface rainbow-delimiters-brace-depth-9-face
-  '((t (:foreground "#FFCFAF")))
-  "Face for rainbow-delimiters mode `brace' nested depth 9."
-  :group 'rainbow-delimiters-brace-faces)
-
-;; Emacs doesn't sort face names by number correctly above 1-9; trick it into
-;; proper sorting by prepending a _ before the faces with depths over 10.
-(defface rainbow-delimiters-brace-depth-_10-face
-  '((t (:foreground "#F0EFD0")))
-  "Face for rainbow-delimiters mode `brace' nested depth 10."
-  :group 'rainbow-delimiters-brace-faces)
-
-(defface rainbow-delimiters-brace-depth-_11-face
-  '((t (:foreground "#F0DFAF")))
-  "Face for rainbow-delimiters mode `brace' nested depth 11."
-  :group 'rainbow-delimiters-brace-faces)
-
-(defface rainbow-delimiters-brace-depth-_12-face
-  '((t (:foreground "#DFCFAF")))
-  "Face for rainbow-delimiters mode `brace' nested depth 12."
-  :group 'rainbow-delimiters-brace-faces)
-
-
-;;; Aliases for faces over depth 10:
-
-;; Because Emacs doesn't sort face names by number correctly above 1-9, we
-;; trick it into proper sorting by prepending a _ before the face number
-;; for faces with depths over 10. Here we define aliases without the underline
-;; for use outside the customize interface.
-
-;; Parentheses:
-(defvaralias 'rainbow-delimiters-paren-depth-10-face
-  'rainbow-delimiters-paren-depth-_10-face)
-(defvaralias 'rainbow-delimiters-paren-depth-11-face
-  'rainbow-delimiters-paren-depth-_11-face)
-(defvaralias 'rainbow-delimiters-paren-depth-12-face
-  'rainbow-delimiters-paren-depth-_12-face)
-;; Brackets:
-(defvaralias 'rainbow-delimiters-bracket-depth-10-face
-  'rainbow-delimiters-bracket-depth-_10-face)
-(defvaralias 'rainbow-delimiters-bracket-depth-11-face
-  'rainbow-delimiters-bracket-depth-_11-face)
-(defvaralias 'rainbow-delimiters-bracket-depth-12-face
-  'rainbow-delimiters-bracket-depth-_12-face)
-;; Braces:
-(defvaralias 'rainbow-delimiters-brace-depth-10-face
-  'rainbow-delimiters-brace-depth-_10-face)
-(defvaralias 'rainbow-delimiters-brace-depth-11-face
-  'rainbow-delimiters-brace-depth-_11-face)
-(defvaralias 'rainbow-delimiters-brace-depth-12-face
-  'rainbow-delimiters-brace-depth-_12-face)
+;; Variable aliases for faces 10+:
+;; We prepend an underline to numbers 10+ to force customize to sort correctly.
+;; Here we define aliases without the underline for use everywhere else.
+(put 'rainbow-delimiters-depth-10-face
+     'face-alias
+     'rainbow-delimiters-depth-_10-face)
+(put 'rainbow-delimiters-depth-11-face
+     'face-alias
+     'rainbow-delimiters-depth-_11-face)
+(put 'rainbow-delimiters-depth-12-face
+     'face-alias
+     'rainbow-delimiters-depth-_12-face)
 
 
 ;;; Face utility functions
@@ -361,92 +226,60 @@
 ;; inlining this function for speed:
 ;; see: http://www.gnu.org/s/emacs/manual/html_node/elisp/Compilation-Tips.html
 ;; this will cause problems with debugging. To debug, change defsubst -> defun.
-(defsubst rainbow-delimiters-depth-face (delim-type depth)
-  "Return face name corresponding to DELIM-TYPE and DEPTH.
+(defsubst rainbow-delimiters-depth-face (depth)
+  "Return face-name 'rainbow-delimiters-depth-DEPTH-face' as a string.
 
-DELIM-TYPE is a keyword, one of :paren :bracket :brace.
 DEPTH is the number of nested levels deep for the delimiter being colorized.
 
-Returns a face of the form 'rainbow-delimiters-DELIM-TYPE-depth-DEPTH-face',
-e.g. 'rainbow-delimiters-paren-depth-1-face'."
-  (concat "rainbow-delimiters-" (substring-no-properties
-                                 (symbol-name delim-type) 1)
-          "-depth-" (number-to-string depth) "-face"))
+Returns a face namestring the of form 'rainbow-delimiters-depth-DEPTH-face',
+e.g. 'rainbow-delimiters-depth-1-face'."
+  (concat "rainbow-delimiters-depth-" (number-to-string depth) "-face"))
 
 
 ;;; Nesting level
 
-;; recognize only parentheses; used with parse-partial-sexp.
-(defvar rainbow-delimiters-paren-syntax-table
+;; syntax-table: used with parse-partial-sexp for determining current depth.
+(defvar rainbow-delimiters-delim-syntax-table
   (let ((table (copy-syntax-table emacs-lisp-mode-syntax-table)))
     (modify-syntax-entry ?\( "()  " table)
     (modify-syntax-entry ?\) ")(  " table)
-    (modify-syntax-entry ?\[ "    " table)
-    (modify-syntax-entry ?\] "    " table)
-    (modify-syntax-entry ?\{ "    " table)
-    (modify-syntax-entry ?\} "    " table)
-    table)
-  "Syntax table for counting paren depth, ignoring other delimiter types.")
-
-;; recognize only brackets; used with parse-partial-sexp.
-(defvar rainbow-delimiters-bracket-syntax-table
-  (let ((table (copy-syntax-table emacs-lisp-mode-syntax-table)))
-    (modify-syntax-entry ?\( "    " table)
-    (modify-syntax-entry ?\) "    " table)
     (modify-syntax-entry ?\[ "(]" table)
     (modify-syntax-entry ?\] ")[" table)
-    (modify-syntax-entry ?\{ "    " table)
-    (modify-syntax-entry ?\} "    " table)
-    table)
-  "Syntax table for counting bracket depth, ignoring other delimiter types.")
-
-;; recognize only braces; used with parse-partial-sexp.
-(defvar rainbow-delimiters-brace-syntax-table
-  (let ((table (copy-syntax-table emacs-lisp-mode-syntax-table)))
-    (modify-syntax-entry ?\( "    " table)
-    (modify-syntax-entry ?\) "    " table)
-    (modify-syntax-entry ?\[ "    " table)
-    (modify-syntax-entry ?\] "    " table)
     (modify-syntax-entry ?\{ "(}" table)
     (modify-syntax-entry ?\} "){" table)
     table)
-  "Syntax table for counting brace depth, ignoring other delimiter types.")
+  "Syntax table for recognizing all supported delimiter types.")
 
-(defun rainbow-delimiters-nesting-depths (point)
-  "Return 3-elt list of nesting depths at POINT for parens, brackets, and braces.
-
-Return depths as a list of the form (paren-depth, bracket-depth, brace-depth)."
+(defun rainbow-delimiters-depth (point)
+  "Return # of nested levels of parens, brackets, braces POINT is inside of."
   (save-excursion
       (beginning-of-defun)
-      (let ((paren-depth
-             (with-syntax-table rainbow-delimiters-paren-syntax-table
-               (car (parse-partial-sexp (point) point))))
-            (bracket-depth
-             (with-syntax-table rainbow-delimiters-bracket-syntax-table
-               (car (parse-partial-sexp (point) point))))
-            (brace-depth
-             (with-syntax-table rainbow-delimiters-brace-syntax-table
+      (let ((depth
+             (with-syntax-table rainbow-delimiters-delim-syntax-table
                (car (parse-partial-sexp (point) point)))))
-        (list paren-depth bracket-depth brace-depth))))
+        (if (>= depth 0)
+            depth
+          0)))) ; ignore negative depths created by unmatched closing parens.
 
 
 ;;; Text properties
 
-;; inlining this function for speed as it is a performance bottleneck:
+;; inlining this function for speed:
 ;; see: http://www.gnu.org/s/emacs/manual/html_node/elisp/Compilation-Tips.html
 ;; this will cause problems with debugging. To debug, change defsubst -> defun.
-(defsubst rainbow-delimiters-propertize-delimiter (point delim-type depth)
-  "Colorize DELIM-TYPE at POINT according to DEPTH.
+(defsubst rainbow-delimiters-propertize-delimiter (point depth)
+  "Colorize delimiter at POINT according to DEPTH.
 
 POINT is the point of character to propertize.
-DELIM-TYPE specifies which delimiter is being colorized for face selection.
-DEPTH specifies which face number depth to select.
+DEPTH is the nested delimiter depth at POINT, which determines the face to use.
 
 Sets text properties:
 `font-lock-face' to the corresponding delimiter face.
 `rear-nonsticky' to prevent color from bleeding into subsequent characters typed by the user."
   (with-silent-modifications
-    (let ((delim-face (rainbow-delimiters-depth-face delim-type depth)))
+    (let ((delim-face (if (<= depth 0)
+                          "rainbow-delimiters-unmatched-face"
+                        (rainbow-delimiters-depth-face depth))))
       ;; (when (eq depth -1) (message "Unmatched delimiter at char %s." point))
       (add-text-properties point (1+ point)
                            `(font-lock-face ,delim-face
@@ -461,9 +294,12 @@ Sets text properties:
 
 
 (defun rainbow-delimiters-char-ineligible-p (point)
-  "Return t if char at POINT is inside a string or comment, otherwise nil.
+  "Return t if char at POINT should be skipped, e.g. if inside a comment.
 
-Characters outside of source code should not be colorized by this mode."
+Returns t if char at point meets one of the following conditions:
+- Inside a string.
+- Inside a comment.
+- Is an escaped char, e.g. ?\)"
   (let ((parse-state (save-excursion
                        (beginning-of-defun)
                        ;; (point) is at beg-of-defun; point is the char location
@@ -492,50 +328,44 @@ Used by jit-lock for dynamic highlighting."
   (save-excursion
     (goto-char start)
     ;; START can be anywhere in buffer; begin depth counts from values at START.
-    (let* ((depths (rainbow-delimiters-nesting-depths start))
-           (paren-depth (car depths))
-           (bracket-depth (second depths))
-           (brace-depth (third depths)))
+    (let ((depth (rainbow-delimiters-depth start)))
       (while (and (< (point) end)
                   (re-search-forward rainbow-delimiters-delim-regex end t))
         (backward-char) ; re-search-forward places point after delim; go back.
         (unless (rainbow-delimiters-char-ineligible-p (point))
           (let ((delim (char-after (point))))
             (cond ((eq ?\( delim)       ; (
-                   (setq paren-depth (1+ paren-depth))
+                   (setq depth (1+ depth))
                    (rainbow-delimiters-propertize-delimiter (point)
-                                                            :paren
-                                                            paren-depth))
+                                                            depth))
                   ((eq ?\) delim)       ; )
                    (rainbow-delimiters-propertize-delimiter (point)
-                                                            :paren
-                                                            paren-depth)
-                   (setq paren-depth (1- paren-depth)))
+                                                            depth)
+                   (setq depth (or (and (<= depth 0) 0) ; unmatched paren
+                                   (1- depth))))
                   ((eq ?\[ delim)       ; [
-                   (setq bracket-depth (1+ bracket-depth))
+                   (setq depth (1+ depth))
                    (rainbow-delimiters-propertize-delimiter (point)
-                                                            :bracket
-                                                            bracket-depth))
+                                                            depth))
                   ((eq ?\] delim)       ; ]
                    (rainbow-delimiters-propertize-delimiter (point)
-                                                            :bracket
-                                                            bracket-depth)
-                   (setq bracket-depth (1- bracket-depth)))
+                                                            depth)
+                   (setq depth (or (and (<= depth 0) 0) ; unmatched bracket
+                                   (1- depth))))
                   ((eq ?\{ delim)       ; {
-                   (setq brace-depth (1+ brace-depth))
+                   (setq depth (1+ depth))
                    (rainbow-delimiters-propertize-delimiter (point)
-                                                            :brace
-                                                            brace-depth))
+                                                            depth))
                   ((eq ?\} delim)       ; }
                    (rainbow-delimiters-propertize-delimiter (point)
-                                                            :brace
-                                                            brace-depth)
-                   (setq brace-depth (1- brace-depth))))))
+                                                            depth)
+                   (setq depth (or (and (<= depth 0) 0) ; unmatched brace
+                                   (1- depth)))))))
         ;; move past delimiter so re-search-forward doesn't pick it up again
         (forward-char)))))
 
 (defun rainbow-delimiters-unpropertize-region (start end)
-  "Remove colorizing text properties from all delimiters in buffer."
+  "Remove mode faces from delimiters in region between START and END."
   (save-excursion
     (goto-char start)
     (while (and (< (point) end)
@@ -546,57 +376,17 @@ Used by jit-lock for dynamic highlighting."
 
 ;;; Minor mode:
 
+;;;###autoload
 (define-minor-mode rainbow-delimiters-mode
-  "Colorize nested delimiters according to depth. Works with (), [], {}."
+  "Color nested parentheses, brackets, and braces according to their depth."
   nil "" nil ; No modeline lighter - it's already obvious when the mode is on.
   (if (not rainbow-delimiters-mode)
       (progn
         (jit-lock-unregister 'rainbow-delimiters-propertize-region)
-         (rainbow-delimiters-unpropertize-region (point-min) (1- (point-max))))
+        (rainbow-delimiters-unpropertize-region (point-min) (1- (point-max))))
     (jit-lock-register 'rainbow-delimiters-propertize-region t)))
 
 
 (provide 'rainbow-delimiters)
 
-;;; Other possible delimiter colors to use: (wide-gamut)
-;; "#7f7f7f"
-;; "#7f7f91"
-;; "#7f7fa1"
-;; "#95aabc"
-;; "#9d9d9d"
-;; "#9d9d9d"
-;; "#8d929b"
-;; "#7f8f9d"
-;; "#73818c"
-;; "#91b3d0"
-;; "#91b3d0"
-;; "#91b3d0"
-;; "#7ea7c9"
-;; "#6b9ac2"
-;; "gray100"
-;; "gray85"
-;; "gray70"
-;; "#6093be"
-;; "#588dba"
-
-;;; Excellent, subtle set of colors for 92% wide gamut screens:
-;;; (e.g. HP LP3065)
-;;   "grey55"
-;;   "#7f967f"
-;;   "#7199a1"
-;;   "#917f7f"
-;;   "#91937f"
-;;   "#7f9691"
-;;   "#949191"
-;;   "#919991"
-;;   "#949194"
-;;   "#949494"
-
-;; personal/custom design for default srgb colors:
-;; #2B5469 - deep tone blue
-;; #69402B - brown
-
-;;; rainbow-delimiters.el ends here
-
-
-
+;;; rainbow-delimiters.el ends here.
