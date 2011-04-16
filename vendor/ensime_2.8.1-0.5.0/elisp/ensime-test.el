@@ -808,6 +808,7 @@
     )
 
 
+
    (ensime-async-test
     "Test file with package name (this broke when -sourcepath param was used)."
     (let* ((proj (ensime-create-tmp-project
@@ -1076,12 +1077,15 @@
     "Test interactive search."
     (let* ((proj (ensime-create-tmp-project
 		  ensime-tmp-project-hello-world
+		  '(:disable-index-on-startup nil)
 		  )))
       (ensime-test-init-proj proj))
 
     ((:connected connection-info))
 
-    ((:compiler-ready status)
+    ((:compiler-ready status))
+
+    ((:indexer-ready status)
      (ensime-test-with-proj
       (proj src-files)
       (ensime-search)
@@ -1096,7 +1100,68 @@
 	(ensime-assert (search-forward "com.helloworld.HelloWorld" nil t))
 	(goto-char 1)
 	(ensime-assert (search-forward "com.helloworld.HelloWorld$.foo" nil t)))
+
+      (with-current-buffer ensime-search-buffer-name
+	(erase-buffer)
+	(insert "java util vector")
+	)
+      ))
+
+    ((:search-buffer-populated val)
+     (ensime-test-with-proj
+      (proj src-files)
+
+      (with-current-buffer ensime-search-target-buffer-name
+	(goto-char 1)
+	(ensime-assert (search-forward-regexp "java.util.Vector[^a-Z]" nil t))
+	(goto-char 1)
+	(ensime-assert (search-forward "java.util.Vector.set" nil t))
+	(goto-char 1)
+	(ensime-assert (search-forward "java.util.Vector.addAll" nil t)))
+
       (ensime-search-quit)
+      (ensime-test-cleanup proj)
+      ))
+    )
+
+
+   (ensime-async-test
+    "Test add import."
+    (let* ((proj (ensime-create-tmp-project
+		  `((:name
+		     "pack/a.scala"
+		     :contents ,(ensime-test-concat-lines
+				 "package pack"
+				 "class A(value:String){"
+				 "def hello(){"
+				 "  println(new /*1*/ArrayList())"
+				 "}"
+				 "}"
+				 )
+		     ))
+		  '(:disable-index-on-startup
+		    nil
+		    :exclude-from-index
+		    ("com\\\\.sun\\\\..\*" "com\\\\.apple\\\\..\*"))
+		  )))
+      (ensime-test-init-proj proj))
+
+    ((:connected connection-info))
+    ((:compiler-ready status))
+
+    ((:indexer-ready status)
+     (ensime-test-with-proj
+      (proj src-files)
+      (goto-char 1)
+      (ensime-assert (null (search-forward "import java.util.ArrayList" nil t)))
+
+      (ensime-test-eat-mark "1")
+      (forward-char 2)
+      (ensime-import-type-at-point t)
+
+      (goto-char 1)
+      (ensime-assert (search-forward "import java.util.ArrayList" nil t))
+
       (ensime-test-cleanup proj)
       ))
     )
@@ -1126,6 +1191,56 @@
       (ensime-test-cleanup proj t)
       ))
     )
+
+
+   (ensime-async-test
+    "Test expand-selection."
+    (let* ((proj (ensime-create-tmp-project
+		  `((:name
+		     "pack/a.scala"
+		     :contents ,(ensime-test-concat-lines
+				 "package pack"
+				 "class A(value:String){"
+				 "def hello(){"
+				 "  println(/*1*/\"hello\")"
+				 "}"
+				 "}"
+				 )
+		     )
+		    ))))
+      (ensime-test-init-proj proj))
+
+    ((:connected connection-info))
+
+    ((:compiler-ready status)
+     (ensime-test-with-proj
+      (proj src-files)
+      (ensime-test-eat-mark "1")
+      (ensime-save-buffer-no-hooks)
+
+      ;; Expand once to include entire string
+      (let* ((pt (point))
+	     (range (ensime-rpc-expand-selection
+		     buffer-file-name
+		     pt pt))
+	     (start1 (plist-get range :start))
+	     (end1 (plist-get range :end)))
+	(ensime-assert (= start1 pt))
+	(ensime-assert (> end1 pt))
+
+	;; Expand again to include entire println call
+	(let* ((range (ensime-rpc-expand-selection
+		       buffer-file-name
+		       start1 end1))
+	       (start2 (plist-get range :start))
+	       (end2 (plist-get range :end)))
+	  (ensime-assert (< start2 start1))
+	  (ensime-assert (> end2 end1))))
+
+      (ensime-test-cleanup proj)
+      ))
+    )
+
 
    ))
 

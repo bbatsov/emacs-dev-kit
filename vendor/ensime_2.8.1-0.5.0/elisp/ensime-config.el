@@ -300,8 +300,8 @@
 
 	  ;; If doesn't exist, maybe create one on the spot
 	  (if (y-or-n-p (concat
-			 "Could not find an ENSIME project file. "
-			 "Would you like to generate one? "))
+			 "Could not find an ENSIME project file."
+			 " Would you like to generate one? "))
 
 	      (ensime-config-gen (file-name-directory file))
 
@@ -332,12 +332,9 @@
 		  (error "Error reading configuration file, %s: %s" src error)
 		  ))
 	       )))
-
 	;; We use the project file's location as the project root.
 	(ensime-set-key config :root-dir dir)
-
 	(ensime-config-maybe-set-active-sbt-subproject config)
-
 	config)
       )))
 

@@ -262,12 +262,6 @@
 	  (set-window-point ensime-search-target-window target-point)
 	  ))))
 
-(defun ensime-search-is-case-sensitive ()
-  "Is the active search case-sensitive?"
-  (let ((case-fold-search nil))
-    (and ensime-search-text
-	 (integerp (string-match "[A-Z]" ensime-search-text)))))
-
 
 (defun ensime-search-auto-update (beg end lenold &optional force)
   "Called from `after-update-functions' to update the display.
@@ -281,7 +275,6 @@
 	  (ensime-rpc-async-public-symbol-search
 	   (split-string new-query " ")
 	   ensime-search-max-results
-	   (ensime-search-is-case-sensitive)
 	   (lambda (info)
 	     (when (buffer-live-p ensime-search-target-buffer)
 	       (let ((results (ensime-search-make-results info)))

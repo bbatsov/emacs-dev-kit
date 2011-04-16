@@ -132,9 +132,9 @@
     (if (equal sbt-buf (buffer-name))
         (switch-to-buffer-other-window (other-buffer))
       (if (and (get-buffer sbt-buf) (ensime-sbt-process-live-p sbt-buf))
-          (switch-to-buffer-other-window sbt-buf))
-        (ensime-sbt)))
-    (goto-char (point-max)))
+          (switch-to-buffer-other-window sbt-buf)
+	(ensime-sbt))))
+  (goto-char (point-max)))
 
 (defun ensime-sbt-process-live-p (buffer-name)
   "Check if the process associated with the buffer is living."

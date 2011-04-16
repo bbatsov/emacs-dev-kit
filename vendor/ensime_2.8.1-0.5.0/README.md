@@ -1,31 +1,44 @@
 # ENSIME
 the ENhanced Scala Interaction Mode for Emacs
 
+# Links
+- [ Downloads ](https://github.com/aemoncannon/ensime/downloads)
+- [ Manual ](http://aemon.com/file_dump/ensime_manual.html)
+- [ Discussion Group ](http://groups.google.com/group/ensime?hl=en)
+
 
 ## Features
 
 - Highlight errors and warnings in your code buffers.
 - Inspect the type of any expression.
 - Browse packages
-- Completion-on-demand for variables, methods, constructors, etc.
+- Completion for variables, methods, constructors, etc.
+- Incrementally search through classpath symbols
+- Find references to a symbol
 - Jump to symbol definitions.
-- Automated Refactorings (rename, organize imports, extract method...)
+- Automated Refactorings (rename, organize imports, extract method)
 - Source Formatting
-- Finds sbt,Maven,Ivy dependencies
-- Scala REPL
-- Scala Debugger
+- AST-based selection
+- Supports sbt,Maven,Ivy projects
 - Embedded sbt shell
+- REPL
+- Debugger
 
 
-Check out this (rather old)[video](http://www.youtube.com/watch?v=A2Lai8IjLoY) or this [one](http://www.youtube.com/watch?v=v7-G6vD42z8) showcasing debugger support
+## Demo Videos
+
+- [Overview (a bit out of date)](http://www.youtube.com/watch?v=A2Lai8IjLoY)
+- [Searching](http://www.youtube.com/watch?v=fcgnAJz98QE)
+- [Debugger Support](http://www.youtube.com/watch?v=v7-G6vD42z8)
+
 
 
 ## System Requirements
 
 - Emacs 22 or later.
-- Unix-like OS or Windows. Note that you'll need to use bin/server.bat on windows.
+- Unix-like OS or Windows.
 - Java Runtime
-- Scala 2.8 compatible source and libraries. ENSIME is built against the 2.8 nightly Scala releases. 
+- A Scala 2.8.1 compatible project. 
 
 
 ## Documentation
