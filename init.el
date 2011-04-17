@@ -1,4 +1,4 @@
-;; Time-stamp: <2011-04-06 15:08:23 (bozhidar)>
+;; Time-stamp: <2011-04-17 11:25:16 (bozhidar)>
 
 ;; Copyright (C) 2009-2010  Bozhidar Batsov.
 ;; This file is free software licensed under the terms of the
@@ -130,9 +130,12 @@ Emacs load path."
 (setq system-specific-config (concat dotfiles-dir system-name ".el")
       user-specific-config (concat dotfiles-dir user-login-name ".el")
       user-specific-dir (concat dotfiles-dir user-login-name))
+
 (add-to-list 'load-path user-specific-dir)
 
-(if (file-exists-p system-specific-config) (load system-specific-config))
-(if (file-exists-p user-specific-config) (load user-specific-config))
+(if (file-exists-p system-specific-config)
+    (load system-specific-config))
+(if (file-exists-p user-specific-config)
+    (load user-specific-config))
 (if (file-exists-p user-specific-dir)
     (mapc #'load (directory-files user-specific-dir nil ".*el$")))
