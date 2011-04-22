@@ -239,6 +239,13 @@
 (require 'zenburn)
 (zenburn)
 
+;; solarized color theme
+(require 'color-theme-solarized)
+;; uncomment this if you prefer the solarized theme
+; (color-theme-solarized-dark)
+;; or
+; (color-theme-solarized-light)
+
 ;; simpler way to navigate the contents of the kill-ring
 (when (require 'browse-kill-ring nil 'noerror)
   (browse-kill-ring-default-keybindings))
