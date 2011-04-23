@@ -107,12 +107,14 @@ that can occur between two notifications.  The default is
 (setq erc-autoaway-use-emacs-idle t)
 
 ;; auto identify
-(load "~/.ercpass")
-(require 'erc-services)
-(erc-services-mode 1)
-(setq erc-prompt-for-nickserv-password nil)
-(setq erc-nickserv-passwords
-      `((freenode     (("bozhidar" . ,bozhidar-pass)))))
+(when (file-exists-p (expand-file-name "~/.ercpass"))
+  (load "~/.ercpass")
+  (require 'erc-services)
+  (erc-services-mode 1)
+  (setq erc-prompt-for-nickserv-password nil)
+  (setq erc-nickserv-passwords
+        `((freenode (("bozhidar" . ,bozhidar-pass)))))
+)
 
 ;; utf-8 always and forever
 (setq erc-server-coding-system '(utf-8 . utf-8))
