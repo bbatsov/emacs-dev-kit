@@ -13,6 +13,9 @@
 
 ;; general settings
 (setq-default indent-tabs-mode nil)      ; I hate tabs!
+;; but I need them in markdown-mode for nested lists(at least with
+;; maruku)
+(setq tab-width 4)
 
 (delete-selection-mode t)                ; delete the selection with a keypress
 (setq x-select-enable-clipboard t        ; copy-paste should work ...
