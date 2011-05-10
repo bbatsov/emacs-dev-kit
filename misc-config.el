@@ -66,13 +66,6 @@
 (set-input-method nil)                   ; no funky input for normal editing;
 (setq read-quoted-char-radix 10)         ; use decimal, not octal
 
-;; highlight the current line; set a custom face, so we can
-;; recognize from the normal marking (selection)
-(defface hl-line '((t (:background "#e8f2fe")))
-  "Face to use for `hl-line-face'." :group 'hl-line)
-(setq hl-line-face 'hl-line)
-(global-hl-line-mode t) ; turn it on for all modes by default
-
 ;; saveplace: save location in file when saving files
 (setq save-place-file "~/.emacs.d/saveplace")
 (setq-default save-place t)            ;; activate it for all buffers
@@ -248,6 +241,10 @@
 ; (color-theme-solarized-dark)
 ;; or
 ; (color-theme-solarized-light)
+
+;; highlight the current line; set a custom face, so we can
+;; recognize from the normal marking (selection)
+(global-hl-line-mode t) ; turn it on for all modes by default
 
 ;; simpler way to navigate the contents of the kill-ring
 (when (require 'browse-kill-ring nil 'noerror)
