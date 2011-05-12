@@ -14,21 +14,24 @@
 ;; Lisp configuration
 (define-key read-expression-map (kbd "TAB") 'lisp-complete-symbol)
 
-;(require 'rainbow-delimiters)
+(require 'rainbow-delimiters)
+
+;; set to t to enable rainbow delims
+(setq use-rainbow-delimiters nil)
 
 ;; a great lisp coding hook
 (defun lisp-coding-hook ()
   (coding-hook)
   (setq autopair-dont-activate t)
   (paredit-mode +1)
-  ;(rainbow-delimiters-mode)
+  (and use-rainbow-delimiters (rainbow-delimiters-mode))
 )
 
 ;; interactive modes don't need whitespace checks
 (defun interactive-lisp-coding-hook ()
   (setq autopair-dont-activate t)
   (paredit-mode +1)
-  ;(rainbow-delimiters-mode)
+  (and use-rainbow-delimiters (rainbow-delimiters-mode))
   (turn-off-whitespace))
 
 (provide 'coding-config)
