@@ -88,6 +88,7 @@ Symbols matching the text at point are put first in the completion list."
           1 font-lock-warning-face t))))
 
 (defun coding-hook ()
+  (flyspell-prog-mode)
   (local-comment-auto-fill)
   (turn-on-whitespace)
   (turn-on-abbrev)

@@ -20,6 +20,7 @@
 
 (add-hook 'ruby-mode-hook
           '(lambda ()
+             (coding-hook)
              (inf-ruby-keys)
              (local-set-key [f1] 'yari)))
 
