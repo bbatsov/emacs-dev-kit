@@ -5,7 +5,9 @@
 (add-to-list 'auto-mode-alist '("\\.sbclrc$" . lisp-mode))
 
 ;; Use SLIME from Quicklisp
-(load (expand-file-name "~/quicklisp/slime-helper.el"))
+(defun load-common-lisp-slime ()
+  (interactive)
+  (load (expand-file-name "~/quicklisp/slime-helper.el")))
 
 ;; a list of alternative Common Lisp implementations that can be
 ;; used with SLIME. Note that their presence render
