@@ -1,4 +1,4 @@
-;; Time-stamp: <2011-04-17 11:25:16 (bozhidar)>
+;; Time-stamp: <2011-05-17 14:18:57 (bozhidar)>
 
 ;; Copyright (C) 2009-2010  Bozhidar Batsov.
 ;; This file is free software licensed under the terms of the
@@ -62,6 +62,10 @@ Emacs load path."
 ;; load ELPA
 (load "package")
 (package-initialize)
+
+;; add the marmalade package repository
+(add-to-list 'package-archives
+             '("marmalade" . "http://marmalade-repo.org/packages/"))
 
 ;; auto install required ELPA packages
 (require 'elpa-config)

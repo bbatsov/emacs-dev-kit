@@ -221,9 +221,6 @@
 ;; we want to be able to have images in tree widgets(especially in Garak)
 (setq tree-widget-image-enable t)
 
-;; lisppaste IRC both integration
-(require 'lisppaste)
-
 ;; gist integration
 (require 'gist)
 
@@ -253,10 +250,6 @@
 (global-set-key "\C-cy" '(lambda ()
                            (interactive)
                            (popup-menu 'yank-menu)))
-
-;; convert buffers to html
-(require 'htmlize)
-(setq htmlize-output-type 'inline-css)
 
 ;; autopair mode
 (require 'autopair)

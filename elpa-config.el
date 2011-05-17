@@ -2,11 +2,9 @@
 ;;
 ;; Part of the Emacs Starter Kit
 
-(defvar starter-kit-packages (list 'xml-rpc
-                                   'lisppaste
-                                   'gist
-                                   'magit
-                                   'htmlize)
+(defvar starter-kit-packages (list 'gist
+                                   'magit                                  
+                                   'clojure-mode)
   "Libraries that should be installed by default.")
 
 (defun starter-kit-elpa-install ()
