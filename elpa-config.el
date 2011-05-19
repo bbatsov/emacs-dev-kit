@@ -1,25 +1,28 @@
 ;; Install a base set of packages automatically.
 ;;
-;; Part of the Emacs Starter Kit
+;; Part of the Emacs Dev Kit
 
-(defvar starter-kit-packages (list 'gist
+(defvar required-packages (list 'color-theme-zenburn
+                                   'gist
                                    'magit                                  
-                                   'clojure-mode)
+                                   'clojure-mode
+                                   'paredit
+                                   'yari)
   "Libraries that should be installed by default.")
 
-(defun starter-kit-elpa-install ()
+(defun required-packages-install ()
   "Install all starter-kit packages that aren't installed."
   (interactive)
   ; create ELPA folder if it's not existing
   (unless (file-exists-p package-user-dir)
     (mkdir package-user-dir))
-  (dolist (package starter-kit-packages)
+  (dolist (package required-packages)
     (unless (or (member package package-activated-list)
                 (functionp package))
       (message "Installing %s" (symbol-name package))
       (package-install package))))
 
-(defun esk-online? ()
+(defun online-p ()
   "See if we're online.
 
 Windows does not have the network-interface-list function, so we
@@ -34,8 +37,8 @@ just have to assume it's online."
     t))
 
 ;; On your first run, this should pull in all the base packages.
-(when (esk-online?)
+(when (online-p)
   (unless package-archive-contents (package-refresh-contents))
-  (starter-kit-elpa-install))
+  (required-packages-install))
 
 (provide 'elpa-config)

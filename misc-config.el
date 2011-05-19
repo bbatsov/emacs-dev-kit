@@ -13,9 +13,6 @@
 
 ;; general settings
 (setq-default indent-tabs-mode nil)      ; I hate tabs!
-;; but I need them in markdown-mode for nested lists(at least with
-;; maruku)
-(setq tab-width 4)
 
 (delete-selection-mode t)                ; delete the selection with a keypress
 (setq x-select-enable-clipboard t        ; copy-paste should work ...
@@ -191,9 +188,6 @@
                                   indentation space-after-tab)
       whitespace-line-column 80)
 
-;; interactive editing support
-(require 'iedit)
-
 ;; automatic buffer clean-up
 (require 'midnight)
 ;; don't kill my precious manuals while I'm still reading them
@@ -224,19 +218,9 @@
 ;; gist integration
 (require 'gist)
 
-;; Emacs Wiki integration
-(require 'yaoddmuse)
-
 ;; zenburn color theme setup
-(require 'zenburn)
-(zenburn)
-
-;; solarized color theme
-(require 'color-theme-solarized)
-;; uncomment this if you prefer the solarized theme
-; (color-theme-solarized-dark)
-;; or
-; (color-theme-solarized-light)
+(require 'color-theme-zenburn)
+(color-theme-zenburn)
 
 ;; highlight the current line; set a custom face, so we can
 ;; recognize from the normal marking (selection)
@@ -245,11 +229,6 @@
 ;; simpler way to navigate the contents of the kill-ring
 (when (require 'browse-kill-ring nil 'noerror)
   (browse-kill-ring-default-keybindings))
-
-;; create a popup menu from the contents of the kill-ring
-(global-set-key "\C-cy" '(lambda ()
-                           (interactive)
-                           (popup-menu 'yank-menu)))
 
 ;; autopair mode
 (require 'autopair)

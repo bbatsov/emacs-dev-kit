@@ -1,4 +1,4 @@
-;; Time-stamp: <2011-05-17 14:18:57 (bozhidar)>
+;; Time-stamp: <2011-05-19 16:26:21 (bozhidar)>
 
 ;; Copyright (C) 2009-2010  Bozhidar Batsov.
 ;; This file is free software licensed under the terms of the
@@ -67,65 +67,70 @@ Emacs load path."
 (add-to-list 'package-archives
              '("marmalade" . "http://marmalade-repo.org/packages/"))
 
+(defun require-config (config)
+  (message "Loading %s..." config)
+  (require config)
+  (message "Loaded %s." config))
+
 ;; auto install required ELPA packages
 (require 'elpa-config)
 
 ;; load misc utils
-(require 'misc-utils)
+(require-config 'misc-utils)
 
 ;; load misc configurations
-(require 'misc-config)
+(require-config 'misc-config)
 
 ;; load editing utils
-(require 'editing-utils)
+(require-config 'editing-utils)
 
 ;; load navigation utils
-(require 'navigation-utils)
+(require-config 'navigation-utils)
 
 ;; load coding utils - should be done before coding configs!
-(require 'coding-utils)
+(require-config 'coding-utils)
 
 ;; load programming modes configuration
-(require 'coding-config)
+(require-config 'coding-config)
 
 ;; lisp family of languages
-(require 'emacs-lisp-config)
+(require-config 'emacs-lisp-config)
 ;; Common Lisp support depends on SLIME being installed with Quicklisp
 (if (file-exists-p (expand-file-name "~/quicklisp/slime-helper.el"))
-    (require 'common-lisp-config)
+    (require-config 'common-lisp-config)
   (message "%s" "SLIME is not installed. Use Quicklisp to install it."))
-(require 'scheme-config)
-(require 'clojure-config)
+(require-config 'scheme-config)
+(require-config 'clojure-config)
 
-(require 'c-config)
-(require 'perl-config)
-(require 'python-config)
-(require 'prolog-config)
-(require 'ruby-config)
-(require 'java-config)
-(require 'scala-config)
-(require 'haskell-config)
+(require-config 'c-config)
+(require-config 'perl-config)
+(require-config 'python-config)
+(require-config 'prolog-config)
+(require-config 'ruby-config)
+(require-config 'java-config)
+(require-config 'scala-config)
+(require-config 'haskell-config)
 
 ;; load ibuffer configuration
-(require 'ibuffer-config)
+(require-config 'ibuffer-config)
 
 ;; load IRC configuration
-(require 'erc-config)
+(require-config 'erc-config)
 
 ;; load auctex configuration
-(require 'auctex-config)
+(require-config 'auctex-config)
 
 ;; load nxml configuration
-(require 'nxml-config)
+(require-config 'nxml-config)
 
 ;; load org configuration
-(require 'org-config)
+(require-config 'org-config)
 
 ;; load auto-complete configuration
-(require 'ac-config)
+(require-config 'ac-config)
 
 ;; load custom global keybindings
-(require 'bindings-config)
+(require-config 'bindings-config)
 
 ;; (regen-autoloads)
 (load custom-file 'noerror)
