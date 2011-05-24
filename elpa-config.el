@@ -3,11 +3,15 @@
 ;; Part of the Emacs Dev Kit
 
 (defvar required-packages (list 'color-theme-zenburn
-                                   'gist
-                                   'magit                                  
-                                   'clojure-mode
-                                   'paredit
-                                   'yari)
+                                'gist
+                                'magit                                  
+                                'clojure-mode
+                                'paredit
+                                'yari
+                                'prolog
+                                'graphviz-dot-mode
+                                'perlcritic
+                                'yaml-mode)
   "Libraries that should be installed by default.")
 
 (defun required-packages-install ()
