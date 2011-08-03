@@ -16,7 +16,7 @@
 
 ;; File finding
 (global-set-key (kbd "C-x M-f") 'ido-find-file-other-window)
-(global-set-key (kbd "C-x C-M-f") 'find-file-in-project)
+(global-set-key (kbd "C-x C-M-f") 'projectile-jump-to-project-file)
 (global-set-key (kbd "C-x f") 'recentf-ido-find-file)
 (global-set-key (kbd "C-c r") 'bury-buffer)
 (global-set-key (kbd "M-`") 'file-cache-minibuffer-complete)

@@ -296,4 +296,7 @@
 (require 're-builder)
 (setq reb-re-syntax 'string)
 
+;; projectile is a project management mode
+(require 'projectile)
+
 (provide 'misc-config)

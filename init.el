@@ -52,26 +52,10 @@ Emacs load path."
 ;; set an explicit file to customization created via the UI
 (setq custom-file (concat dotfiles-dir "custom.el"))
 
-;; set the ELPA dir(packages downloaded by ELPA will go there)
-(setq package-user-dir (concat dotfiles-dir "elpa"))
-
-;; create the ELPA package dir if it doesn't exist
-(if (not (file-exists-p package-user-dir))
-    (mkdir package-user-dir))
-
-;; load ELPA
-(load "package")
-(package-initialize)
-
-;; add the marmalade package repository
-(add-to-list 'package-archives
-             '("marmalade" . "http://marmalade-repo.org/packages/"))
-
 ;; a list of all configurations that must be loaded
-(defvar configs '(elpa misc coding emacs-lisp common-lisp scheme clojure c
-                       perl python java ruby scala haskell
+(defvar configs '(misc coding emacs-lisp common-lisp scheme c
+                        python java ruby scala haskell
                        ibuffer erc auctex nxml org ac bindings))
-
 (defun require-config (config)
   (message "Loading %s..." config)
   (require config)
