@@ -1,12 +1,12 @@
-;; Time-stamp: <2011-05-19 23:34:48 (bozhidar)>
+;; Time-stamp: <2011-08-05 15:08:59 (bozhidar)>
 
-;; Copyright (C) 2009-2010  Bozhidar Batsov.
+;; Copyright (C) 2009-2011  Bozhidar Batsov.
 ;; This file is free software licensed under the terms of the
 ;; GNU General Public License, version 3 or later.
 
-;; A lot of the configuration here is stolen or inspired from someone
-;; else's work. I thank all the people from which I have benefited and
-;; I hope that many of you will benefit from me as well. :-)
+;; This is my personal Emacs setup, cleaned-up to be of some use to other
+;; people as well. Hopefully, you'll find something of value for you
+;; in it.
 
 ;; a large part of Common Lisp implemented in Emacs Lisp
 (require 'cl)
@@ -54,13 +54,14 @@ Emacs load path."
 
 ;; a list of all configurations that must be loaded
 (defvar configs '(misc coding emacs-lisp common-lisp scheme c
-                        python java ruby scala haskell
-                       ibuffer erc auctex nxml org ac bindings))
+                       python ruby haskell
+                       ibuffer erc auctex nxml org bindings))
 (defun require-config (config)
   (message "Loading %s..." config)
   (require config)
   (message "Loaded %s." config))
 
+;; require all the configs automatically
 (dolist (config configs)
   (require-config (intern (concatenate 'string
                                        (symbol-name config)
