@@ -12,7 +12,7 @@
 (define-key global-map (kbd "C--") 'text-scale-decrease)
 
 ;; Jump to a definition in the current file. (This is awesome.)
-(global-set-key (kbd "C-x C-i") 'ido-imenu)
+(global-set-key (kbd "M-i") 'ido-goto-symbol)
 
 ;; File finding
 (global-set-key (kbd "C-x M-f") 'ido-find-file-other-window)
@@ -48,8 +48,8 @@
 ;; Fetch the contents at a URL, display it raw.
 (global-set-key (kbd "C-x C-h") 'view-url)
 
-;; Help should search more than just commands
-(global-set-key (kbd "C-h a") 'apropos)
+;; A complementary binding to the apropos-command(C-h a)
+(global-set-key (kbd "C-h A") 'apropos)
 
 ;; Should be able to eval-and-replace anywhere.
 (global-set-key (kbd "C-c e") 'eval-and-replace)
