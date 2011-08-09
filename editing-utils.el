@@ -8,6 +8,7 @@
   (next-line 1)
   (indent-according-to-mode))
 
+;; mimic popular IDEs binding, note that it doesn't work in a terminal session
 (global-set-key [(shift return)] 'insert-empty-line)
 
 ;; move line up
