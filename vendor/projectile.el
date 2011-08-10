@@ -34,8 +34,15 @@
 
 ;; This library provides easy project management and navigation.
 (require 'cl)
+(require 'easymenu)
 
-(defvar projectile-project-root-files '(".git" ".hg" ".bzr"))
+(defvar projectile-project-root-files '(".git" ".hg" ".bzr" ".projectile"))
+
+(defvar projectile-projects-cache (make-hash-table :test 'equal))
+
+(defun projectile-invalidate-project-cache ()
+  (interactive)
+  (remhash (projectile-get-project-root) projectile-projects-cache))
 
 (defun projectile-get-project-root ()
   (loop for file in projectile-project-root-files
@@ -45,15 +52,37 @@
 (defun projectile-get-project-files (directory)
   "List the files in DIRECTORY and in its sub-directories."
   ;; while we are in the current directory
-  (let (files-list) 
-    (dolist (current-file (directory-files directory t) files-list)
-      (cond
-       ((and (file-directory-p current-file)
-             (string= (expand-file-name current-file) current-file)
-             (not (projectile-ignored-p current-file)))
-        (setq files-list (append files-list (projectile-get-project-files current-file))))
-       ((and (string= (expand-file-name current-file) current-file)
-             (not (file-directory-p current-file))) (setq files-list (cons current-file files-list)))))))
+  (if (gethash directory projectile-projects-cache)
+      (gethash directory projectile-projects-cache)
+    (let (files-list) 
+      (dolist (current-file (directory-files directory t) files-list)
+        (cond
+         ((and (file-directory-p current-file)
+               (string= (expand-file-name current-file) current-file)
+               (not (projectile-ignored-p current-file)))
+          (setq files-list (append files-list (projectile-get-project-files current-file))))
+         ((and (string= (expand-file-name current-file) current-file)
+               (not (file-directory-p current-file))) (setq files-list (cons current-file files-list)))))
+      (puthash directory files-list projectile-projects-cache)
+      files-list)))
+
+(defun projectile-get-project-buffers ()
+  (let ((project-files (projectile-get-project-files (projectile-get-project-root)))
+        (buffer-files (mapcar 'buffer-file-name (buffer-list))))
+    (mapcar 'get-file-buffer (intersection project-files buffer-files :test 'string=))
+    ))
+
+(defun projectile-get-project-buffer-names ()
+  (mapcar 'buffer-name (projectile-get-project-buffers)))
+
+(defun projectile-switch-to-buffer ()
+  (interactive)
+  (switch-to-buffer (ido-completing-read "Jump to project buffer: " (projectile-get-project-buffer-names))))
+
+(defun projectile-multi-occur ()
+  (interactive)
+  (multi-occur (projectile-get-project-buffers)
+               (car (occur-read-primary-args))))
 
 (defun projectile-hashify-files (files-list)
   (let ((files-table (make-hash-table :test 'equal)))
@@ -88,27 +117,33 @@
                          (read-string "Search for: ")))
         (root-dir (projectile-get-project-root)))
     (message "%s %s" search-regexp root-dir)
-    (rgrep 
-     search-regexp 
-     "*" 
-     root-dir)))
+    (rgrep search-regexp "all" root-dir)))
 
 (defun projectile-regenerate-tags ()
   (interactive)
   (let ((current-dir default-directory)
         (project-root (projectile-get-project-root)))
     (cd project-root)
-    (shell-command (format "ctags -Re %s" (projectile-get-project-root)))
+    (shell-command (format "ctags -Re %s" project-root))
     (cd current-dir)
     (visit-tags-table project-root)))
 
 (defun projectile-replace-in-project ()
-  (interactive))
+  (interactive)
+  (let ((current-dir default-directory)
+        (project-root (projectile-get-project-root))
+        (old-text (read-string "Replace: "))
+        (new-text (read-string "With: ")))
+    (shell-command (format "find %s -type d -name .git -prune -o -print| xargs perl -p -i -e 's/%s/%s/g'" project-root old-text new-text))))
 
 (defvar projectile-mode-map
   (let ((map (make-sparse-keymap)))
-    (define-key map (kbd "C-c p j") 'projectile-jump-to-file)
+    (define-key map (kbd "C-c p j") 'projectile-jump-to-project-file)
     (define-key map (kbd "C-c p f") 'projectile-grep-in-project)
+    (define-key map (kbd "C-c p b") 'projectile-switch-to-buffer)
+    (define-key map (kbd "C-c p o") 'projectile-multi-occur)
+    (define-key map (kbd "C-c p r") 'projectile-replace-in-project)
+    (define-key map (kbd "C-c p i") 'projectile-invalidate-project-cache)
     map)
   "Keymap for Projectile mode."
   )
@@ -119,22 +154,28 @@
     ("Navigating"
      ["Jump to file" projectile-jump-to-project-file])
 
-    ("Search and replace"
-     ["Search in project" projectile-grep-in-project])
-
-    ))
-
+    ("Search & Replace"
+     ["Search in project" projectile-grep-in-project])))
 
 ;; define minor mode
 (define-globalized-minor-mode projectile-global-mode projectile-mode projectile-on)
 
 (defun projectile-on () 
-  (when (projectile-get-project-root) 
+  (when (projectile-get-project-root)
     (projectile-mode 1)))
+
+(defun projectile-off ()
+  (easy-menu-remove)
+  )
 
 (define-minor-mode projectile-mode "Minor mode to assist project management and navigation."
   :lighter " Projectile"
-  :keymap projectile-mode-map)
+  :keymap projectile-mode-map
+  (if projectile-mode
+      ;; on start
+      (easy-menu-add projectile-mode-menu projectile-mode-map)
+    ;; on stop
+    (projectile-off)))
 
 (provide 'projectile)
 ;;; projectile.el ends here
