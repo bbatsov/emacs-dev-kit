@@ -1,4 +1,4 @@
-;; Time-stamp: <2011-08-05 15:08:59 (bozhidar)>
+;; Time-stamp: <2011-08-10 23:15:25 (bozhidar)>
 
 ;; Copyright (C) 2009-2011  Bozhidar Batsov.
 ;; This file is free software licensed under the terms of the
@@ -18,6 +18,9 @@
 
 ;; disable startup screen
 (setq inhibit-startup-screen t)
+
+;; a proper stack trace is priceless
+(setq debug-on-error t)
 
 ;; show a scrollbar on the right
 (scroll-bar-mode t)
