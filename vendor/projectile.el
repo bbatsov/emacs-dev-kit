@@ -35,6 +35,7 @@
 ;; This library provides easy project management and navigation.
 (require 'cl)
 (require 'easymenu)
+(require 'thingatpt)
 
 (defvar projectile-project-root-files '(".git" ".hg" ".bzr" ".projectile"))
 
@@ -85,12 +86,20 @@
                (car (occur-read-primary-args))))
 
 (defun projectile-hashify-files (files-list)
-  (let ((files-table (make-hash-table :test 'equal)))
+  (let ((files-table (make-hash-table :test 'equal))
+        (files-to-uniquify nil))
     (dolist (current-file files-list files-table)
       (let ((basename (file-name-nondirectory current-file)))
         (if (gethash basename files-table)
-            (puthash (uniquify-file current-file) current-file files-table)
-          (puthash basename current-file files-table))))))
+            (progn
+             (puthash (uniquify-file current-file) current-file files-table)
+             (when basename (push basename files-to-uniquify)))
+          (puthash basename current-file files-table))))
+    ;; uniquify remaining files
+    (dolist (current-file (remove-duplicates files-to-uniquify :test 'string=))
+      (puthash (uniquify-file (gethash current-file files-table)) (gethash current-file files-table) files-table)
+      (remhash current-file files-table))
+    files-table))
 
 (defun uniquify-file (filename)
   (let ((filename-parts (reverse (split-string filename "/")))) 
@@ -114,10 +123,10 @@
   (interactive)
   (let ((search-regexp (if mark-active
                            (buffer-substring (region-beginning) (region-end))
-                         (read-string "Search for: ")))
+                         (read-string "Search for: " (thing-at-point 'word))))
         (root-dir (projectile-get-project-root)))
-    (message "%s %s" search-regexp root-dir)
-    (rgrep search-regexp "all" root-dir)))
+    (grep-compute-defaults)
+    (rgrep search-regexp "* .*" root-dir)))
 
 (defun projectile-regenerate-tags ()
   (interactive)
@@ -132,7 +141,7 @@
   (interactive)
   (let ((current-dir default-directory)
         (project-root (projectile-get-project-root))
-        (old-text (read-string "Replace: "))
+        (old-text (read-string "Replace: " (thing-at-point 'word)))
         (new-text (read-string "With: ")))
     (shell-command (format "find %s -type d -name .git -prune -o -print| xargs perl -p -i -e 's/%s/%s/g'" project-root old-text new-text))))
 
