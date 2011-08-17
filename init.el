@@ -1,4 +1,4 @@
-;; Time-stamp: <2011-08-17 08:38:48 (bozhidar)>
+;; Time-stamp: <2011-08-17 23:58:13 (bozhidar)>
 
 ;; Copyright (C) 2009-2011  Bozhidar Batsov.
 ;; This file is free software licensed under the terms of the
@@ -29,6 +29,11 @@
 ;; show a scrollbar on the right
 (scroll-bar-mode t)
 (set-scroll-bar-mode 'right)
+
+;; on OS X Emacs doesn't use the system PATH for some reason
+;; if you're using homebrew modifying the PATH is essential
+(if (string= system-type "darwin")
+    (push "/usr/local/bin" exec-path))
 
 ;; determine the load path dirs
 ;; as relative to the location of this file
