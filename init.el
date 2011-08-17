@@ -1,4 +1,4 @@
-;; Time-stamp: <2011-08-10 23:15:25 (bozhidar)>
+;; Time-stamp: <2011-08-17 08:24:36 (bozhidar)>
 
 ;; Copyright (C) 2009-2011  Bozhidar Batsov.
 ;; This file is free software licensed under the terms of the
@@ -15,6 +15,7 @@
 ;; You really don't need these; trust me.
 (tool-bar-mode -1)
 (menu-bar-mode -1)
+(blink-cursor-mode -1)
 
 ;; disable startup screen
 (setq inhibit-startup-screen t)
