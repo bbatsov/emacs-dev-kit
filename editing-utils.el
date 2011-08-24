@@ -105,6 +105,7 @@ there's a region, all lines that region covers will be duplicated."
         (setq end (point)))
       (goto-char (+ origin (* (length region) arg) arg)))))
 
+;; TODO doesn't work with uniquify
 (defun rename-file-and-buffer ()
   "Renames current buffer and file it is visiting."
   (interactive)
