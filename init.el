@@ -1,4 +1,4 @@
-;; Time-stamp: <2011-08-17 23:58:13 (bozhidar)>
+;; Time-stamp: <2011-08-24 22:42:24 (bozhidar)>
 
 ;; Copyright (C) 2009-2011  Bozhidar Batsov.
 ;; This file is free software licensed under the terms of the
@@ -17,7 +17,9 @@
 ;; Turn off mouse interface early in startup to avoid momentary display
 ;; You really don't need these; trust me.
 (tool-bar-mode -1)
-(menu-bar-mode -1)
+;; removing the menubar under OS X doesn't make much sense
+(unless (string= system-type "darwin")
+ (menu-bar-mode -1))
 (blink-cursor-mode -1)
 
 ;; disable startup screen
@@ -60,6 +62,10 @@ Emacs load path."
 ;; add the first lever subfolders automatically
 (add-subfolders-to-load-path dotfiles-dir)
 (add-subfolders-to-load-path ext-dir)
+
+;; Emacs 24 color themes
+(when (= emacs-major-version 24)
+  (add-to-list 'custom-theme-load-path (concat dotfiles-dir "themes/")))
 
 ;; set an explicit file to customization created via the UI
 (setq custom-file (concat dotfiles-dir "custom.el"))

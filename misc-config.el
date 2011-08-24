@@ -15,9 +15,11 @@
 (setq-default indent-tabs-mode nil)      ; I hate tabs!
 
 (delete-selection-mode t)                ; delete the selection with a keypress
-(setq x-select-enable-clipboard t        ; copy-paste should work ...
-      interprogram-paste-function        ; ...with...
-      'x-cut-buffer-or-selection-value)  ; ...other X clients
+
+(unless (= emacs-major-version 24) 
+  (setq x-select-enable-clipboard t       ; copy-paste should work ...
+        interprogram-paste-function       ; ...with...
+        'x-cut-buffer-or-selection-value)) ; ...other X clients
 
 (setq search-highlight t                 ; highlight when searching...
       query-replace-highlight t)         ; ...and replacing
@@ -219,8 +221,8 @@
 (require 'gist)
 
 ;; zenburn color theme setup
-(require 'color-theme-zenburn)
-(color-theme-zenburn)
+;(require 'color-theme-zenburn)
+;(color-theme-zenburn)
 
 ;; highlight the current line; set a custom face, so we can
 ;; recognize from the normal marking (selection)
