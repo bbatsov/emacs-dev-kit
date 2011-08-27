@@ -236,13 +236,19 @@
 (when (require 'browse-kill-ring nil 'noerror)
   (browse-kill-ring-default-keybindings))
 
-;; autopair mode
-(require 'autopair)
-(autopair-global-mode)
-(setq autopair-autowrap t)
-(setq autopair-blink nil)
+(if (>= emacs-major-version 24)
+    (progn
+      (electric-pair-mode t)
+      (electric-indent-mode t)
+      (electric-layout-mode t))
+  (progn
+    ;; autopair mode
+    (require 'autopair)
+    (autopair-global-mode)
+    (setq autopair-autowrap t)
+    (setq autopair-blink nil)
 
-(add-hook 'sldb-mode-hook #'(lambda () (setq autopair-dont-activate t)))
+    (add-hook 'sldb-mode-hook #'(lambda () (setq autopair-dont-activate t)))))
 
 ;; add double quotes to text-mode syntax table
 (add-hook 'text-mode-hook
