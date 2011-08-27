@@ -102,6 +102,7 @@ to StackOverflow rules."
       (clipboard-kill-ring-save (point-min) (point-max)))))
 
 (defun strip-presentation-effects ()
+  "Strips effects from LaTeX Beamer presentations. Useful to create complementary pdf's with no effects."
   (interactive)
   (if (not (string= (substring (buffer-file-name) -4 nil) ".tex"))
       (error "You can run this only on LaTeX files"))

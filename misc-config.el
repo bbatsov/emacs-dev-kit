@@ -221,8 +221,12 @@
 (require 'gist)
 
 ;; zenburn color theme setup
-;(require 'color-theme-zenburn)
-;(color-theme-zenburn)
+(if (>= emacs-major-version 24)
+    (load-theme 'zenburn t)
+  (progn
+    (require 'color-theme-zenburn)
+    (color-theme-zenburn)))
+
 
 ;; highlight the current line; set a custom face, so we can
 ;; recognize from the normal marking (selection)

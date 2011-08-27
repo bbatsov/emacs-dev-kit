@@ -1,4 +1,4 @@
-;; Time-stamp: <2011-08-24 22:42:24 (bozhidar)>
+;; Time-stamp: <2011-08-27 16:37:34 (bozhidar)>
 
 ;; Copyright (C) 2009-2011  Bozhidar Batsov.
 ;; This file is free software licensed under the terms of the
@@ -93,6 +93,9 @@ Emacs load path."
 (require-config 'navigation-utils)
 ;; load coding utils - should be done before coding configs!
 (require-config 'coding-utils)
+;; load Mac OS X config if needed
+(when (stringp= system-type "darwin")
+  (require-config 'mac))
 
 (load custom-file 'noerror)
 

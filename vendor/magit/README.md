@@ -1,9 +1,12 @@
-It's Magit!  A Emacs mode for Git.
-==================================
+It's Magit!  An Emacs mode for Git.
+===================================
 
-Magit is an interface to Git for Emacs. Unlike Emacs's native
-[version control support][vc], Magit can take advantage of Git's
-native features without breaking compatibility with other systems.
+Magit is an interface to Git for Emacs, supporting GNU Emacs 22 or
+later.
+
+ Unlike Emacs's native [version control support][vc], Magit can take
+advantage of Git's native features without breaking compatibility with
+other systems.
 
 To get started see the [Magit User Manual][manual] or perhaps the
 [cheatsheet][cheatsheet] if you're in a hurry. There's also an
@@ -18,6 +21,8 @@ then Magit can be installed with the popular recipe of:
 
 make && sudo make install
 
+This requires `emacs` and `makeinfo` binaries, so please make sure the relevant
+packages (generally `emacs` and `texinfo`) are installed on your system.
 This will put magit.el into `/usr/local/share/emacs/site-lisp`, where
 Emacs should be able to find it.  Then add
 
@@ -35,6 +40,10 @@ options.
 ### git-topgit
 
 `(require 'magit-topgit)` - integrates with topgit.
+
+### git-stgit
+
+`(require 'magit-stgit)` - integrates with StGit.
 
 Getting started
 ---------------
@@ -67,10 +76,10 @@ Magit's canonical source repository is currently
 [hosted on GitHub][development].
 
 [vc]: http://www.gnu.org/software/emacs/manual/html_node/emacs/Version-Control.html#Version-Control
-[website]: http://philjackson.github.com/magit
-[development]: http://github.com/philjackson/magit
-[manual]: http://philjackson.github.com/magit/magit.html
+[website]: http://magit.github.com/magit
+[development]: http://github.com/magit/magit
+[manual]: http://magit.github.com/magit/magit.html
 [cheatsheet]: http://daemianmack.com/magit-cheatsheet.html
 [screencast]: http://vimeo.com/2871241
-[download]: http://github.com/philjackson/magit/downloads
+[download]: http://github.com/magit/magit/downloads
 [google group]: http://groups.google.com/group/magit/
