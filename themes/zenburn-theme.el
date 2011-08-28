@@ -46,10 +46,9 @@
 ;;; Code
 (deftheme zenburn "The Zenburn color theme")
 
-;; color definitions
-;; colors with +x are lighter, colors with -x are darker
 (let ((class '((class color) (min-colors 89)))
-      ;; Zenburn pallette
+      ;; Zenburn palette
+      ;; colors with +x are lighter, colors with -x are darker
       (zenburn-fg "#dcdccc")
       (zenburn-fg-1 "#656555")
       (zenburn-bg-1 "#2b2b2b")
@@ -87,13 +86,13 @@
    '(link-visited ((t (:foreground "#8b008b" :underline t))))
    '(button ((t (:underline t))))
 
-;;; define some reusable zenburn faces that we can inherit from afterwards
+   ;;; define some reusable zenburn faces that we can inherit from afterwards
    `(zenburn-strong-1-face ((,class (:foreground ,zenburn-yellow :weight bold))))
    `(zenburn-strong-2-face ((,class (:foreground ,zenburn-orange :weight bold))))
    `(zenburn-warning-face ((,class (:foreground ,zenburn-yellow-1 :weight bold :underline t))))
    `(zenburn-error-face ((,class (:foreground ,zenburn-red-1 :weight bold :underline t))))
 
-;;; basic coloring
+   ;;; basic coloring
    `(default ((,class (:foreground ,zenburn-fg :background ,zenburn-bg))))
    `(cursor ((,class (:foreground ,zenburn-fg))))
    `(escape-glyph-face ((,class (:foreground ,zenburn-red))))
@@ -102,7 +101,7 @@
                                   :box (:color ,zenburn-green :line-width 2)))))
    `(highlight ((,class (:background ,zenburn-bg+1))))
 
-;;; compilation
+   ;;; compilation
    `(compilation-column-face ((,class (:foreground ,zenburn-yellow))))
    `(compilation-enter-directory-face ((,class (:foreground ,zenburn-green))))
    `(compilation-error-face ((,class (:foreground ,zenburn-red-1 :weight bold :underline t))))
@@ -115,7 +114,7 @@
    `(compilation-message-face ((,class (:foreground ,zenburn-blue))))
    `(compilation-warning-face ((,class (:foreground ,zenburn-yellow-1 :weight bold :underline t))))
 
-;;; grep
+   ;;; grep
    `(grep-context-face ((,class (:foreground ,zenburn-fg))))
    `(grep-error-face ((,class (:foreground ,zenburn-red-1 :weight bold :underline t))))
    `(grep-hit-face ((,class (:foreground ,zenburn-blue))))
@@ -139,11 +138,11 @@
    `(trailing-whitespace ((,class (:background ,zenburn-red))))
    `(vertical-border ((,class (:foreground ,zenburn-fg))))
 
-;;; font lock
+   ;;; font lock
    `(font-lock-builtin-face ((,class (:foreground ,zenburn-blue))))
    `(font-lock-comment-face ((,class (:foreground ,zenburn-green))))
    `(font-lock-comment-delimiter-face ((,class (:foreground ,zenburn-green))))
-   `(font-lock-constant-face ((,class (:foreground ,zenburn-fg))))
+   `(font-lock-constant-face ((,class (:foreground ,zenburn-green+4))))
    `(font-lock-doc-face ((,class (:foreground ,zenburn-green+1))))
    `(font-lock-doc-string-face ((,class (:foreground ,zenburn-blue+1))))
    `(font-lock-function-name-face ((,class (:foreground ,zenburn-blue))))
@@ -151,11 +150,11 @@
    `(font-lock-negation-char-face ((,class (:foreground ,zenburn-fg))))
    `(font-lock-preprocessor-face ((,class (:foreground ,zenburn-blue))))
    `(font-lock-string-face ((,class (:foreground ,zenburn-red))))
-   `(font-lock-type-face ((,class (:foreground ,zenburn-yellow))))
-   `(font-lock-variable-name-face ((,class (:foreground ,zenburn-yellow))))
+   `(font-lock-type-face ((,class (:foreground ,zenburn-blue))))
+   `(font-lock-variable-name-face ((,class (:foreground ,zenburn-orange))))
    `(font-lock-warning-face ((,class (:foreground ,zenburn-yellow-1 :weight bold :underline t))))
 
-;;; external
+   ;;; external
 
    ;; diff
    `(diff-added ((,class (:foreground ,zenburn-green+4))))
@@ -403,8 +402,8 @@
    `(rpm-spec-var-face ((,class (:foreground ,zenburn-red))))
 
    ;; show-paren
-   `(show-paren-mismatch ((,class (:foreground ,zenburn-red-3 :weight bold))))
-   `(show-paren-match ((,class (:foreground ,zenburn-blue-1 :weight bold))))
+   `(show-paren-mismatch ((,class (:foreground ,zenburn-red-3 :background ,zenburn-bg :weight bold))))
+   `(show-paren-match ((,class (:foreground ,zenburn-blue-1 :background ,zenburn-bg :weight bold))))
 
    ;; wanderlust
    `(wl-highlight-folder-few-face ((,class (:foreground ,zenburn-red-2))))

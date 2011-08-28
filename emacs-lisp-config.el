@@ -8,7 +8,8 @@
 
 (add-hook 'lisp-interaction-mode-hook
           (lambda ()
-            (autopair-mode)
+            (when (= emacs-major-version 23)
+              (autopair-mode))
             (paredit-mode -1)
             (turn-off-whitespace)))
 (add-hook 'ielm-mode-hook 'interactive-lisp-coding-hook)
