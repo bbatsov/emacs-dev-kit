@@ -1,5 +1,5 @@
-;; ruby-mode settings
-(global-set-key (kbd "C-h r") 'ri)
+;;; Ruby
+;;; This file is part of the Emacs Dev Kit
 
 ;; Rake files are ruby, too, as are gemspecs, rackup files, and gemfiles.
 (add-to-list 'auto-mode-alist '("\\.rake$" . ruby-mode))
@@ -17,14 +17,16 @@
 (autoload 'inf-ruby-keys "inf-ruby"
   "Set local key defs for inf-ruby in ruby-mode")
 
+;; yari provides a nice Emacs interface to ri
 (require 'yari)
 
 (add-hook 'ruby-mode-hook
           '(lambda ()
              (coding-hook)
              (inf-ruby-keys)
-             (local-set-key [f1] 'yari)))
+             (local-set-key (kbd "C-h r") 'yari)))
 
+;; HAML and SASS are quite handy in Rails development
 (require 'haml-mode)
 (require 'scss-mode)
 
