@@ -91,15 +91,28 @@ a sound to be played"
         (buffer-substring (region-beginning) (region-end))
       (read-string "Google: ")))))
 
-(defun stackoverflow-copy-code-snippet (begin end)
+(defun indent-rigidly-and-copy-to-clipboard (begin end indent)
   "Copy the selected code region to the clipboard, indented according
-to StackOverflow rules."
-  (interactive "r")
+to Markdown blockquote rules."
   (let ((buffer (current-buffer)))
     (with-temp-buffer
       (insert-buffer-substring-no-properties buffer begin end)
-      (indent-rigidly (point-min) (point-max) 4)
+      (indent-rigidly (point-min) (point-max) indent)
       (clipboard-kill-ring-save (point-min) (point-max)))))
+
+(defun indent-blockquote-and-copy-to-clipboard (begin end)
+  "Copy the selected code region to the clipboard, indented according
+to markdown blockquote rules (useful to copy snippets to StackOverflow, Assembla, Github."
+  (interactive "r")
+  (indent-rigidly-and-copy-to-clipboard begin end 4))
+
+(defun indent-nested-blockquote-and-copy-to-clipboard (begin end)
+  "Copy the selected code region to the clipboard, indented according
+to markdown blockquote rules. Useful to add snippets under bullet points."
+  (interactive "r")
+  (indent-rigidly-and-copy-to-clipboard begin end 6))
+
+
 
 (defun strip-presentation-effects ()
   "Strips effects from LaTeX Beamer presentations. Useful to create complementary pdf's with no effects."
