@@ -1,5 +1,6 @@
-;; various coding helpers to aid the
-;; ambitious code forger in you
+;;; various coding helpers to aid the
+;;; ambitious code forger in you
+;;; This file is part of the Emacs Dev Kit
 
 (require 'thingatpt)
 (require 'imenu)

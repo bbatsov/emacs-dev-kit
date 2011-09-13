@@ -1,4 +1,4 @@
-;; Time-stamp: <2011-09-13 16:40:46 (bozhidar)>
+;; Time-stamp: <2011-09-13 22:54:09 (bozhidar)>
 
 ;; Copyright (C) 2009-2011  Bozhidar Batsov.
 ;; This file is free software licensed under the terms of the
@@ -8,7 +8,7 @@
 ;; people as well. Hopefully, you'll find something of value for you
 ;; in it.
 
-;; Emacs Dev Kit is targeting ONLY Emacs 23.x. Older Emacs
+;; Emacs Dev Kit is targeting ONLY Emacs 23.x and Emacs 24.x. Older Emacs
 ;; versions are not supported.
 
 ;; a large part of Common Lisp implemented in Emacs Lisp

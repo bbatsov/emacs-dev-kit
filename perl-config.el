@@ -1,4 +1,5 @@
-;; cperl-mode - the best Perl mode for Emacs
+;;; cperl-mode - the best Perl mode for Emacs
+;;; This file is part of the Emacs Dev Kit
 
 ;; use cperl-mode instead of perl-mode
 (defalias 'perl-mode 'cperl-mode)

@@ -1,3 +1,6 @@
+;;; A set of additional keybindings
+;;; This file is part of the Emacs Dev Kit
+
 ;; You know, like Readline.
 (global-set-key (kbd "C-M-h") 'backward-kill-word)
 

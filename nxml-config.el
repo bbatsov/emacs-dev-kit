@@ -1,3 +1,5 @@
+;;; This file is part of the Emacs Dev Kit
+
 ;; Use nxml-mode instead of sgml, xml or html mode.
 (mapc
  (lambda (pair)

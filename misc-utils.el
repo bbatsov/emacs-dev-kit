@@ -1,3 +1,6 @@
+;;; various helper functions
+;;; This file is part of the Emacs Dev Kit
+
 ;; we need to do some clean up of a string before we send in to the shell
 (defun clean-message (s)
   (setq s (replace-regexp-in-string "'" "&apos;"

@@ -1,4 +1,6 @@
-;; Emacs IRC configuration
+;;; Emacs IRC configuration
+;;; This file is part of the Emacs Dev Kit
+
 (require 'erc)
 (require 'erc-log)
 (require 'erc-notify)

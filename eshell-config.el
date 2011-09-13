@@ -1,3 +1,6 @@
+;;; Eshell
+;;; This file is part of the Emacs Dev Kit
+
 (setq eshell-cmpl-cycle-completions nil
       eshell-save-history-on-exit t
       eshell-cmpl-dir-ignore "\\`\\(\\.\\.?\\|CVS\\|\\.svn\\|\\.git\\)/\\'")

@@ -1,3 +1,5 @@
+;;; This file is part of the Emacs Dev Kit
+
 ;; The following lines are always needed. Choose your own keys.
 (add-to-list 'auto-mode-alist '("\\.org\\’" . org-mode))
 (global-set-key "\C-cl" 'org-store-link)

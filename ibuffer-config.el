@@ -1,3 +1,6 @@
+;;; IBuffer
+;;; This file is part of the Emacs Dev Kit
+
 (require 'ibuffer) 
 (setq ibuffer-saved-filter-groups
   (quote (("default"      

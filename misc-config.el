@@ -1,5 +1,6 @@
 ;;; miscellaneous configuration that doesn't
 ;;; belong to any particular place
+;;; This file is part of the Emacs Dev Kit
 
 ;; nice scrolling
 (setq scroll-margin 0

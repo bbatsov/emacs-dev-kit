@@ -1,3 +1,5 @@
+;;; This file is part of the Emacs Dev Kit
+
 (require 'url)
 
 (defun download-file (&optional url download-dir download-name)

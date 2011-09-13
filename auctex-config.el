@@ -1,3 +1,6 @@
+;;; LaTeX
+;;; This file is part of the Emacs Dev Kit
+
 ;; AUCTeX configuration
 (setq TeX-auto-save t)
 (setq TeX-parse-self t)

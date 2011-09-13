@@ -1,4 +1,5 @@
-;; common configuration for most programming modes
+;;; common configuration for most programming modes
+;;; This file is part of the Emacs Dev Kit
 
 ;; this will get applied to all modes extending cc-mode
 ;; like java-mode, php-mode, etc

@@ -1,3 +1,5 @@
+;;; This file is part of the Emacs Dev Kit
+
 ;; insert an empty line after the current
 ;; line and position the cursor on its beginning,
 ;; according to the current mode

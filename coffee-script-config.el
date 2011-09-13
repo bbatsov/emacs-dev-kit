@@ -1,4 +1,5 @@
-;; CoffeeScript is a nice little language that comples to JavaScript
+;;; CoffeeScript is a nice little language that comples to JavaScript
+;;; This file is part of the Emacs Dev Kit
 
 (require 'coffee-mode)
 

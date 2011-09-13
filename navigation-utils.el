@@ -1,3 +1,5 @@
+;;; This file is part of the Emacs Dev Kit
+
 (defun recentf-ido-find-file ()
   "Find a recent file using ido."
   (interactive)
