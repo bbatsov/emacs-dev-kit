@@ -280,7 +280,7 @@
 (add-to-list 'auto-mode-alist '("\\.yml$" . yaml-mode))
 
 ;; graphviz-mode
-;;(require 'graphviz-dot-mode)
+(require 'graphviz-dot-mode)
 
 (autoload 'find-file-in-project "find-file-in-project"
   "Find file in project." t)
