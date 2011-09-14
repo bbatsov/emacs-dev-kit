@@ -20,10 +20,14 @@
 ;; yari provides a nice Emacs interface to ri
 (require 'yari)
 
+(require 'ruby-block)
+(require 'ruby-end)
+
 (add-hook 'ruby-mode-hook
           '(lambda ()
              (coding-hook)
              (inf-ruby-keys)
+             (ruby-block-mode t)
              (local-set-key (kbd "C-h r") 'yari)))
 
 ;; HAML and SASS are quite handy in Rails development
