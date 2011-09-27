@@ -34,4 +34,11 @@
 (require 'haml-mode)
 (require 'scss-mode)
 
+;; cucumber support
+(require 'feature-mode)
+(add-to-list 'auto-mode-alist '("\.feature$" . feature-mode))
+
+;; load bundle snippets
+(yas/load-directory  (concat ext-dir "feature-mode/snippets"))
+
 (provide 'ruby-config)
