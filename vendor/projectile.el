@@ -31,19 +31,63 @@
 ;; Boston, MA 02110-1301, USA.
 
 ;;; Commentary:
+;;
+;; This library provides easy project management and navigation. The
+;; concept of a project is pretty basic - just a folder containing
+;; special file. Currently git, mercurial and bazaar repos are
+;; considered projects by default. If you want to mark a folder
+;; manually as a project just create an empty .projectile file in
+;; it. Some of projectile's features:
+;;
+;; * jump to a file in project
+;; * jump to a project buffer
+;; * multi-occur in project buffers
+;; * grep in project
+;; * regenerate project etags
+;;; Installation:
+;;
+;; (require 'projectile)
+;; (projectile-global-mode) ;; to enable in all buffers
+;;
+;; To enable projectile only in select modes:
+;;
+;; (add-hook 'ruby-mode-hook #'(lambda () (projectile-mode)))
+;;
+;;; Usage:
+;;
+;; Here's a list of the interactive Emacs Lisp functions, provided by projectile:
+;;
+;; * projectile-jump-to-project-file (C-c p j)
+;; * projectile-grep-in-project (C-c p f)
+;; * projectile-replace-in-project (C-c p r)
+;; * projectile-switch-to-buffer (C-c p b)
+;; * projectile-multi-occur (C-c p o)
+;; * projectile-regenerate-tags (C-c p t)
+;; * projectile-invalidate-project-cache (C-c p i)
+;;
+;;; Code:
 
-;; This library provides easy project management and navigation.
+;; requires
 (require 'cl)
 (require 'easymenu)
 (require 'thingatpt)
 
-(defvar projectile-project-root-files '(".git" ".hg" ".bzr" ".projectile"))
+;; variables
+(defvar projectile-project-root-files '(".git" ".hg" ".bzr" ".projectile")
+  "A list of files considered to mark the root of a project")
 
-(defvar projectile-projects-cache (make-hash-table :test 'equal))
+(defvar projectile-ignored-file-extenstions '("class" "o" "so" "elc")
+  "A list of file extensions ignored by projectile.")
+
+(defvar projectile-projects-cache (make-hash-table :test 'equal)
+  "A hashmap used to cache project file names to speed up related operations")
 
 (defun projectile-invalidate-project-cache ()
+  "Removes the current project's files from `projectile-projects-cache'"
   (interactive)
-  (remhash (projectile-get-project-root) projectile-projects-cache))
+  (let ((project-root (projectile-get-project-root)))
+    (remhash project-root projectile-projects-cache)
+    (message "Invalidated Projectile cache for %s" project-root)))
 
 (defun projectile-get-project-root ()
   (loop for file in projectile-project-root-files
@@ -63,15 +107,17 @@
                (not (projectile-ignored-p current-file)))
           (setq files-list (append files-list (projectile-get-project-files current-file))))
          ((and (string= (expand-file-name current-file) current-file)
-               (not (file-directory-p current-file))) (setq files-list (cons current-file files-list)))))
-      (puthash directory files-list projectile-projects-cache)
+               (not (file-directory-p current-file))
+               (not (projectile-ignored-extension-p current-file)))
+          (setq files-list (cons current-file files-list)))))
+      (when (string= directory (projectile-get-project-root))
+       (puthash directory files-list projectile-projects-cache))
       files-list)))
 
 (defun projectile-get-project-buffers ()
   (let ((project-files (projectile-get-project-files (projectile-get-project-root)))
         (buffer-files (mapcar 'buffer-file-name (buffer-list))))
-    (mapcar 'get-file-buffer (intersection project-files buffer-files :test 'string=))
-    ))
+    (mapcar 'get-file-buffer (intersection project-files buffer-files :test 'string=))))
 
 (defun projectile-get-project-buffer-names ()
   (mapcar 'buffer-name (projectile-get-project-buffers)))
@@ -110,6 +156,10 @@
         when (string= (expand-file-name (concat (projectile-get-project-root) ignored)) file) 
         do (return t) 
         finally (return nil)))
+
+(defun projectile-ignored-extension-p (file)
+  (let ((ext (file-name-extension file)))
+    (member ext projectile-ignored-file-extenstions)))
 
 (defun projectile-jump-to-project-file ()
   (interactive)
@@ -153,18 +203,25 @@
     (define-key map (kbd "C-c p o") 'projectile-multi-occur)
     (define-key map (kbd "C-c p r") 'projectile-replace-in-project)
     (define-key map (kbd "C-c p i") 'projectile-invalidate-project-cache)
+    (define-key map (kbd "C-c p t") 'projectile-regenerate-tags)
     map)
-  "Keymap for Projectile mode."
-  )
+  "Keymap for Projectile mode.")
 
 (easy-menu-define projectile-mode-menu projectile-mode-map
   "Menu for Projectile mode"
   '("Projectile"
     ("Navigating"
-     ["Jump to file" projectile-jump-to-project-file])
+     ["Jump to file" projectile-jump-to-project-file]
+     ["Jump to buffer" projectile-switch-to-buffer])
 
-    ("Search & Replace"
-     ["Search in project" projectile-grep-in-project])))
+    ("Find & Replace"
+     ["Find in project" projectile-grep-in-project]
+     ["Replace in project" projectile-replace-in-project]
+     ["Multi-occur in project" projectile-multi-occur])
+    
+    ("General"
+     ["Invalidate cache" projectile-invalidate-project-cache]
+     ["Regenerate etags" projectile-regenerate-tags])))
 
 ;; define minor mode
 (define-globalized-minor-mode projectile-global-mode projectile-mode projectile-on)
@@ -174,8 +231,7 @@
     (projectile-mode 1)))
 
 (defun projectile-off ()
-  (easy-menu-remove)
-  )
+  (easy-menu-remove))
 
 (define-minor-mode projectile-mode "Minor mode to assist project management and navigation."
   :lighter " Projectile"

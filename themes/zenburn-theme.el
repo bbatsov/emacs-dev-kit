@@ -51,7 +51,9 @@
       ;; colors with +x are lighter, colors with -x are darker
       (zenburn-fg "#dcdccc")
       (zenburn-fg-1 "#656555")
+      (zenburn-bg-2 "#1f1f1f")
       (zenburn-bg-1 "#2b2b2b")
+      (zenburn-bg-05 "#383838")
       (zenburn-bg "#3f3f3f")
       (zenburn-bg+1 "#4f4f4f")
       (zenburn-bg+2 "#5f5f5f")
@@ -80,11 +82,11 @@
       (zenburn-blue-4 "#4c7073")
       (zenburn-blue-5 "#366060")
       (zenburn-magenta "#dc8cc3"))
-  (custom-theme-set-faces 
+  (custom-theme-set-faces
    'zenburn
-   '(link ((t (:foreground "#f0dfaf" :underline t))))
-   '(link-visited ((t (:foreground "#8b008b" :underline t))))
    '(button ((t (:underline t))))
+   `(link ((,class (:foreground ,zenburn-yellow :underline t :weight bold))))
+   `(link-visited ((,class (:foreground ,zenburn-yellow-2 :underline t :weight normal))))
 
    ;;; define some reusable zenburn faces that we can inherit from afterwards
    `(zenburn-strong-1-face ((,class (:foreground ,zenburn-yellow :weight bold))))
@@ -96,9 +98,9 @@
    `(default ((,class (:foreground ,zenburn-fg :background ,zenburn-bg))))
    `(cursor ((,class (:foreground ,zenburn-fg))))
    `(escape-glyph-face ((,class (:foreground ,zenburn-red))))
-   `(fringe ((,class (:foreground ,zenburn-fg :background ,zenburn-bg))))
-   `(header-line ((,class (:foreground ,zenburn-yellow :background ,zenburn-bg-1))))
-   `(highlight ((,class (:background ,zenburn-bg+1))))
+   `(fringe ((,class (:foreground ,zenburn-fg :background ,zenburn-bg+1))))
+   `(header-line ((,class (:foreground ,zenburn-yellow :background ,zenburn-bg-2))))
+   `(highlight ((,class (:background ,zenburn-bg-1))))
 
    ;;; compilation
    `(compilation-column-face ((,class (:foreground ,zenburn-yellow))))
@@ -132,7 +134,7 @@
    `(mode-line-buffer-id ((,class (:foreground ,zenburn-yellow :weight bold))))
    `(mode-line-inactive
      ((,class (:foreground ,zenburn-green-1  :background ,zenburn-bg-1))))
-   `(region ((,class (:background ,zenburn-bg-1))))
+   `(region ((,class (:background ,zenburn-bg-05))))
    `(secondary-selection ((,class (:background ,zenburn-bg+2))))
    `(trailing-whitespace ((,class (:background ,zenburn-red))))
    `(vertical-border ((,class (:foreground ,zenburn-fg))))
@@ -187,7 +189,7 @@
    ;; erc
    `(erc-action-face ((,class (:inherit erc-default-face))))
    `(erc-bold-face ((,class (:weight bold))))
-   `(erc-current-nick-face ((,class (:foreground ,zenburn-yellow :weight bold))))
+   `(erc-current-nick-face ((,class (:foreground ,zenburn-blue :weight bold))))
    `(erc-dangerous-host-face ((,class (:inherit font-lock-warning))))
    `(erc-default-face ((,class (:foreground ,zenburn-fg))))
    `(erc-direct-msg-face ((,class (:inherit erc-default))))
@@ -195,8 +197,8 @@
    `(erc-fool-face ((,class (:inherit erc-default))))
    `(erc-highlight-face ((,class (:inherit hover-highlight))))
    `(erc-input-face ((,class (:foreground ,zenburn-yellow))))
-   `(erc-keyword-face ((,class (:foreground ,zenburn-yellow :weight bold))))
-   `(erc-nick-default-face ((,class (:weigth bold))))
+   `(erc-keyword-face ((,class (:foreground ,zenburn-blue :weight bold))))
+   `(erc-nick-default-face ((,class (:foreground ,zenburn-yellow :weight bold))))
    `(erc-my-nick-face ((,class (:foreground ,zenburn-red :weigth bold))))
    `(erc-nick-msg-face ((,class (:inherit erc-default))))
    `(erc-notice-face ((,class (:foreground ,zenburn-green))))
@@ -401,8 +403,11 @@
    `(rpm-spec-var-face ((,class (:foreground ,zenburn-red))))
 
    ;; show-paren
-   `(show-paren-mismatch ((,class (:foreground ,zenburn-red-3 :background ,zenburn-bg :weight bold))))
-   `(show-paren-match ((,class (:foreground ,zenburn-blue-1 :background ,zenburn-bg :weight bold))))
+   `(show-paren-mismatch ((,class (:foreground ,zenburn-red-3 :weight bold))))
+   `(show-paren-match ((,class (:foreground ,zenburn-blue-1 :weight bold))))
+
+   ;; SLIME
+   `(slime-repl-inputed-output-face ((,class (:foreground ,zenburn-red))))
 
    ;; wanderlust
    `(wl-highlight-folder-few-face ((,class (:foreground ,zenburn-red-2))))
@@ -435,7 +440,7 @@
 
 (custom-theme-set-variables
  'zenburn
- '(ansi-color-names-vector [zenburn-bg zenburn-red zenburn-green zenburn-yellow 
+ '(ansi-color-names-vector [zenburn-bg zenburn-red zenburn-green zenburn-yellow
                                        zenburn-blue zenburn-magenta zenburn-cyan zenburn-fg]))
 
 (provide-theme 'zenburn)
