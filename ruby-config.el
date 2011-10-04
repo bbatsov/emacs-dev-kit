@@ -27,6 +27,8 @@
           '(lambda ()
              (coding-hook)
              (inf-ruby-keys)
+             ;; turn off the annoying input echo in irb
+             (setq comint-process-echoes t)
              (ruby-block-mode t)
              (local-set-key (kbd "C-h r") 'yari)))
 
