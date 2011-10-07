@@ -96,14 +96,9 @@
 (require 'windmove)
 (windmove-default-keybindings 'super)
 
-;; show-paren-mode: subtle blinking of matching paren (defaults are ugly)
+;; show-paren-mode: subtle highlighting of matching parens
 (show-paren-mode t)
 (setq show-paren-style 'parenthesis)
-(set-face-attribute 'show-paren-match-face nil
-                    :weight 'bold :underline nil :overline nil :slant 'normal)
-(set-face-background 'show-paren-mismatch-face "red")
-(set-face-attribute 'show-paren-mismatch-face nil
-                    :weight 'bold :underline nil :overline nil :slant 'normal)
 
 ;; tramp, for sudo access
 (require 'tramp)

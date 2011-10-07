@@ -1,4 +1,4 @@
-;; Time-stamp: <2011-09-13 23:04:13 (bozhidar)>
+;; Time-stamp: <2011-10-06 22:20:56 (bozhidar)>
 
 ;; Copyright (C) 2009-2011  Bozhidar Batsov.
 ;; This file is free software licensed under the terms of the
