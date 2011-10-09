@@ -1,5 +1,24 @@
 # Emacs Dev Kit
 
+## Emacs Prelude
+
+**The Emacs Dev Kit will not be actively developed any longer. I'll be
+focusing most of my efforts on
+[Emacs Prelude](https://github.com/bbatsov/emacs-prelude). If you like
+the dev kit - you'll love the Prelude ;-)**
+
+Why another project instead of continuing this one? I want it to be
+clear that the Emacs Prelude will be a radical departure from the way
+things were done in the Dev Kit - it will have a more structured,
+cleaner and better documented codebase.  It will also drop support for
+all Emacsen prior to Emacs 24.
+
+Last, but not least - the Emacs Dev Kit was a particularly poor naming
+choice. People constantly kept associating it with two things: for
+developers only and the Emacs Starter Kit. No more. The Emacs Prelude is
+for everyone and apart from a few functions borrowed for the ESK shares
+next to nothing with it.
+
 ## About
 
 The Emacs Dev Kit is a set of customizations and extensions for the latest GNU Emacs
