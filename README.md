@@ -4,7 +4,7 @@
 
 **The Emacs Dev Kit will not be actively developed any longer. I'll be
 focusing most of my efforts on
-[Emacs Prelude](https://github.com/bbatsov/emacs-prelude). If you like
+[Emacs Prelude](https://github.com/bbatsov/prelude). If you like
 the dev kit - you'll love the Prelude ;-)**
 
 Why another project instead of continuing this one? I want it to be
